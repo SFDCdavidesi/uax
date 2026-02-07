@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UAX - Test EXCLUSIVO Sistemas Operativos</title>
+    <style>
+        :root { --primary: #2563eb; --success: #059669; --error: #dc2626; --bg: #f1f5f9; --card: #ffffff; --text: #0f172a; }
+        body { font-family: system-ui, -apple-system, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+        .header { position: sticky; top: 0; background: var(--card); width: 100%; max-width: 650px; padding: 15px; border-radius: 0 0 15px 15px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); z-index: 1000; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat { text-align: center; }
+        .stat-val { display: block; font-weight: 800; font-size: 1.2rem; }
+        .stat-label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; }
+        .shuffle-btn { grid-column: span 3; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .quiz-container { width: 100%; max-width: 650px; }
+        .q-card { background: var(--card); padding: 18px; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .unit-badge { background: #e2e8f0; color: #475569; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: bold; }
+        .question-text { font-size: 1rem; font-weight: 600; margin: 12px 0; line-height: 1.4; }
+        .option { padding: 12px; border: 2px solid #f1f5f9; border-radius: 10px; margin-bottom: 8px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; background: #fdfdfd; }
+        .option:hover { border-color: #cbd5e1; }
+        .disabled { pointer-events: none; }
+        .correct { background: #dcfce7 !important; border-color: var(--success) !important; color: #166534; }
+        .wrong { background: #fee2e2 !important; border-color: var(--error) !important; color: #991b1b; }
+        #results-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.3); text-align: center; z-index: 2000; width: 80%; max-width: 400px; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1999; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="stat"><span class="stat-val" id="hits">0</span><span class="stat-label">Aciertos</span></div>
+        <div class="stat"><span class="stat-val" id="fails">0</span><span class="stat-label">Fallos</span></div>
+        <div class="stat"><span class="stat-val" id="current">0/60</span><span class="stat-label">Progreso</span></div>
+        <button class="shuffle-btn" onclick="initQuiz()">🎲 Mezclar y Reiniciar</button>
+    </div>
+
+    <div class="quiz-container" id="quiz-box"></div>
+
+    <div class="overlay" id="overlay"></div>
+    <div id="results-modal">
+        <h2>🎉 ¡Fin del Test!</h2>
+        <div id="final-stats" style="margin: 20px 0; line-height: 2;"></div>
+        <button class="shuffle-btn" onclick="closeModal()">🔄 Volver a intentar</button>
+    </div>
+
+    <script>
+        const rawQuestions = [
+            // UD1 - SSOO
+            {u:"UD1", q:"¿El sistema operativo interviene en la operación de la memoria caché?", o:["Sí, para garantizar que almacene la información adecuada.", "Sí, pero sólo cuando se produce un error.", "Sí, para buscar en ella la información solicitada.", "No, es gestionada exclusivamente por el hardware."], c:3},
+            {u:"UD1", q:"Un archivo de cabecera contiene", o:["Prototipos de funciones.", "Declaraciones de variables", "Funciones reutilizables.", "Nombres de archivos fuente."], c:0},
+            {u:"UD1", q:"Si en el código tenemos la sentencia a[0]=1", o:["&a es igual a & (a[0])", "&a es igual a a[0]", "a es igual a*(a[0])", "*a es igual a *(&a[0])"], c:3},
+            {u:"UD1", q:"Si una variable está definida fuera de cualquier función, se tratará", o:["De una variable local al módulo donde se defina.", "De una variable global.", "De una constante.", "De un puntero."], c:1},
+            {u:"UD1", q:"¿Cuál de los siguientes no es un registro de la Unidad de Control?", o:["Registro de instrucción.", "Registro de datos.", "Registro de estado.", "Contador de programa."], c:1},
+            {u:"UD1", q:"Es falso que la función printf", o:["Se define en stdio.h.", "Se define en stdlib.h.", "Utiliza %d para mostrar enteros.", "Utiliza %lf para mostrar valores reales."], c:1},
+            {u:"UD1", q:"El controlador de un dispositivo de E/S", o:["Atiende las interrupciones causadas por el dispositivo.", "Necesita siempre al procesador para transferir datos a memoria.", "Eleva las interrupciones correspondientes al dispositivo.", "Es un elemento software que gobierna la ejecución del dispositivo."], c:2},
+            {u:"UD1", q:"Es falso que la función scanf", o:["Se define en stdio.h.", "Utiliza %d para leer enteros.", "Necesita la dirección de memoria de la variable donde almacena el valor.", "Utiliza %c para leer reales."], c:3},
+            {u:"UD1", q:"Podemos considerar que en un computador existen", o:["Sólo dos flujos de entrada: uno de datos y otro de instrucciones.", "Un flujo de entrada (datos e instrucciones) y otro de salida.", "Dos flujos de entrada (datos e instrucciones) y otro de salida (resultados).", "Dos flujos de entrada (datos e instrucciones) y dos de salida (resultados y errores)."], c:2},
+            {u:"UD1", q:"¿Cuál es el mecanismo que no permite cambiar el modo de ejecución de usuario a núcleo?", o:["La instrucción RETI.", "La recepción de una interrupción.", "La ejecución de una operación de entrada/salida.", "La ejecución de un servicio del sistema operativo."], c:0},
+            // UD2 - SSOO
+            {u:"UD2", q:"La función pthread_join sirve para:", o:["Crear una hebra", "Detener una hebra", "Esperar a una hebra", "Iniciar una hebra"], c:2},
+            {u:"UD2", q:"Un proceso es", o:["El contenido del segmento de código de un programa.", "Una entidad lógica creada por el Sistema Operativo.", "Un archivo ejecutable.", "Un servicio del sistema operativo."], c:1},
+            {u:"UD2", q:"El tercer parámetro de la función pthread_create indica:", o:["Los argumentos con que se llamará a la función sobre la que se crea una hebra", "El código de la función sobre la que se crea una hebra", "La estructura que almacenará los datos de la hebra", "Los atributos con que se llamará a la función sobre la que se crea una hebra"], c:1},
+            {u:"UD2", q:"¿Cuál de la siguiente información no es almacenada por el BCP de un proceso?", o:["Ultima instrucción ejecutada", "Máscara de interrupciones.", "Referencia a los archivos abiertos", "Referencia al segmento de código del proceso."], c:0},
+            {u:"UD2", q:"Un proceso en estado bloqueado", o:["Puede pasar directamente a estado de ejecución.", "Puede haber realizado una transición a este estado desde el estado de listo.", "Tiene todos los recursos y elementos que necesita para reanudar su ejecución.", "Ha pasado al menos una vez por el estado de ejecución."], c:3},
+            {u:"UD2", q:"La función sobre la que se cree una hebra", o:["Puede recibir más de un parámetro.", "Puede recibir más de un parámetro si todos son punteros.", "No puede recibir más de un parámetro.", "Puede recibir más de un parámetro si todos son punteros a void (* void)."], c:2},
+            {u:"UD2", q:"Si un proceso se encuentra en estado de ejecución:", o:["Su estado hardware se almacena en la pila de usuario.", "Su estado hardware se almacena en los registros del procesador.", "Su estado hardware se almacena en su BCP.", "Su estado hardware se almacena en la pila del sistema."], c:1},
+            {u:"UD2", q:"Se dice que entre dos procesos existe una relación padre-hijo si:", o:["Uno ha sido creado por el sistema operativo a instancias del otro.", "Ambos pertenecen a la misma familia de procesos.", "Ambos comparten los mismos recursos.", "Ambos forman parte de la misma aplicación."], c:0},
+            {u:"UD2", q:"Es falso que el BCP de un proceso pueda encontrarse:", o:["En espacio de memoria del sistema.", "Enlazado en una lista de procesos en estado listo.", "En memoria secundaria.", "Enlazado en una lista de procesos bloqueados."], c:2},
+            {u:"UD2", q:"Las hebras definidas sobre un proceso", o:["Tienen cada una un BCP diferente.", "Tienen cada una su propio segmento de código.", "Tienen cada una su propio segmento de datos.", "Tienen cada una su propio estado del procesador."], c:3},
+            // UD3 - SSOO
+            {u:"UD3", q:"Suponga una política de planificación basada en FCFS", o:["Si un proceso ocupa el procesador puede ejecutar hasta terminar.", "Un proceso esperará a que terminen todos los que han llegado antes incluso si se bloquean.", "Si un proceso se bloquea continuará ejecutando en el mismo orden tras el bloqueo.", "Si un proceso abandona el procesador es porque se ha bloqueado."], c:0},
+            {u:"UD3", q:"El planificador a corto plazo:", o:["Se ejecuta para decidir qué proceso suspendido es traído a memoria.", "Se ejecuta para decidir qué proceso bloqueado es reanudado.", "Se ejecuta para decidir qué proceso es suspendido.", "Se ejecuta para decidir qué proceso en estado de listo toma el control del procesador."], c:3},
+            {u:"UD3", q:"El segundo parámetro de la función sched_setaffinity determina:", o:["Los procesadores sobre los que el proceso ejecutará.", "El tamaño de la máscara de procesadores.", "El pid del proceso", "Los procesadores sobre los que el proceso no ejecutará."], c:1},
+            {u:"UD3", q:"Suponga una política de planificación de colas multinivel y prioridad estática:", o:["Los procesos pasan por todas las colas multinivel.", "Los procesos pueden ejecutar durante un quantum distinto en función de la cola.", "Los procesos cambian de cola multinivel cuando agotan el quantum de su cola.", "Un proceso ejecuta durante el mismo quantum independientemente de la cola."], c:1},
+            {u:"UD3", q:"En una política de planificación expropiativa:", o:["El sistema operativo puede tomar el control del procesador en cualquier momento.", "El sistema operativo ocupa el procesador durante un tiempo y no cede el procesador a ningún proceso hasta que ese tiempo concluye.", "El sistema operativo no tiene autoridad para expropiar a cualquier proceso del procesador en cualquier momento.", "Si un proceso obtiene el control del procesador no lo deja hasta que concluye su ejecución."], c:0},
+            {u:"UD3", q:"Suponga una política de planificación Round-Robin con quantum q=6", o:["Un proceso nunca podrá esperar por más de 6 u.t. seguidas.", "Un proceso nunca podrá ejecutar por más de 6 u.t. seguidas.", "Un proceso no podrá volver a ejecutar tras haber estado 6 u.t. en ejecución.", "El tiempo de retorno del proceso es como mínimo de 6 u.t."], c:1},
+            {u:"UD3", q:"Suponga una política de planificación basada en FCFS (desbloqueo)", o:["Si un proceso es desbloqueado se insertará al frente de la cola de listos.", "Si un proceso es desbloqueado tomará automáticamente el control del procesador.", "Si un proceso es desbloqueado puede tener que esperar a que acaben todos los insertados en la cola de listos.", "Si un proceso es desbloqueado no podrá ejecutar ininterrumpidamente cuando pase a ejecución."], c:2},
+            {u:"UD3", q:"La función sched_setaffinity:", o:["No tiene efecto si hay un solo procesador.", "Puede vaciar una máscara de procesadores.", "Es una macro.", "Puede asignar procesadores a una máscara."], c:0},
+            {u:"UD3", q:"¿Cuántos niveles de prioridad se establecen para la política SCHED_RR en Linux?", o:["140", "100", "139", "99"], c:3},
+            {u:"UD3", q:"Suponga una política de planificación Round-Robin con quantum q=4", o:["Un proceso en estado listo no podrá esperar más de 6 u.t.", "Un proceso en estado listo podrá esperar menos de 6 u.t.", "Un proceso en estado suspendido no podrá esperar más de 6 u.t.", "Un proceso en estado bloqueado no podrá esperar más de 6 u.t."], c:1},
+            // UD4 - SSOO
+            {u:"UD4", q:"Dos procesos que utilicen memoria compartida:", o:["Tienen que tener acceso al mismo sistema de ficheros.", "Tienen que ser hijos del mismo padre.", "Tienen que ser padre-hijo.", "Tienen que pertenecer al mismo usuario."], c:0},
+            {u:"UD4", q:"En un pipe:", o:["No se suele intercambiar información de manera unidireccional.", "No se suele intercambiar información de manera bidireccional.", "No hay llamadas bloqueantes.", "No se puede establecer comunicación entre procesos ubicados en máquinas distintas."], c:3},
+            {u:"UD4", q:"El quinto parámetro de la primitiva mmap corresponde a:", o:["El archivo que se proyectará.", "La zona de memoria compartida.", "La zona de memoria que se proyectará.", "El espacio local que se habrá reservado para la memoria compartida."], c:0},
+            {u:"UD4", q:"El segundo parámetro de la llamada a pthread_cond_wait corresponde a un mutex que:", o:["Si está abierto, el proceso no quedará bloqueado en la llamada.", "Si está cerrado, se abrirá.", "Se bloqueará en la llamada.", "Se liberará en la llamada."], c:3},
+            {u:"UD4", q:"Si un semáforo general tiene valor 2:", o:["No puede haber procesos en la región crítica que controle.", "Ningún proceso que invoque a wait podrá entrar en región crítica.", "Puede haber procesos en la región crítica que controle.", "Una llamada a signal no tendrá efecto sobre el contador."], c:2},
+            {u:"UD4", q:"Si un semáforo general tiene valor 0:", o:["No puede haber procesos en la región crítica que controle.", "Una llamada a signal dejará siempre el semáforo a valor 1.", "Ningún proceso que invoque a wait podrá entrar en región crítica.", "Una llamada a signal no tendrá efecto sobre el contador."], c:2},
+            {u:"UD4", q:"En la llamada a read sobre un pipe:", o:["El segundo parámetro indica la posición de memoria sobre la que se escribirá lo leído del pipe.", "El segundo parámetro indica la posición de memoria que se escribirá en el pipe.", "El segundo parámetro indica la posición de memoria sobre la que se escribirá lo escrito en el pipe.", "El segundo parámetro indica la posición de memoria sobre la que se leerá."], c:0},
+            {u:"UD4", q:"Un recurso crítico, necesariamente:", o:["Tiene que ser accedido secuencialmente por los procesos o hebras.", "Tiene que ser accedido dentro de una región crítica.", "Tiene que ser accedido en exclusión mutua.", "Siempre tiene que poder ser accedido simultáneamente por más de un proceso."], c:1},
+            {u:"UD4", q:"Sea una región crítica donde puede haber hasta dos procesos en ejecución:", o:["La región puede ser controlada por un semáforo binario.", "Si la región es controlada por un semáforo general este se inicializa a -2", "La región no puede ser controlada por un semáforo binario.", "Si la región es controlada por un semáforo general este se inicializa a cero."], c:2},
+            {u:"UD4", q:"El segundo parámetro de la llamada a pthread_cond_wait corresponde a un mutex que (propiedad):", o:["Quedará en posesión del proceso que invoque a pthread_cond_wait.", "Puede estar abierto.", "Puede estar bloqueado por otro proceso.", "Quedará abierto si estaba cerrado."], c:2},
+            // UD5 - SSOO
+            {u:"UD5", q:"Una zona de memoria compartida:", o:["Pueden utilizar referencias lógicas normales para referenciar elementos en su interior.", "Comienzan siempre en la posición 1.", "Pueden contener direcciones físicas referenciadas por direcciones lógicas distintas en los espacios de memoria de los procesos que la comparten.", "No pueden contener direcciones físicas referenciadas por direcciones lógicas distintas."], c:2},
+            {u:"UD5", q:"Las funciones de bibliotecas estáticas", o:["Se integran en los archivos ejecutables.", "Se invocan a través de una llamada al sistema operativo.", "No tienen que ser reenlazadas si la biblioteca se actualiza.", "No tienen que ser recompiladas si la biblioteca se actualiza."], c:0},
+            {u:"UD5", q:"En un esquema de memoria virtual basado en segmentación.", o:["No pueden utilizarse tablas de páginas.", "Cada segmento tendrá sus propios permisos de acceso.", "Los segmentos tendrán tamaño fijo.", "Todos los segmentos estarán siempre cargados en memoria principal."], c:1},
+            {u:"UD5", q:"Las direcciones lógicas de un proceso:", o:["Son la entrada a la MMU.", "Referencian posiciones de memoria física.", "Comienzan siempre en la posición 1.", "No pueden ser iguales para cada proceso."], c:0},
+            {u:"UD5", q:"Con particiones dinámicas:", o:["Hay fragmentación interna.", "Hay fragmentación externa.", "Un proceso puede ocupar dos zonas separadas.", "La eficiencia del almacenamiento no depende del algoritmo de asignación."], c:1},
+            {u:"UD5", q:"En un esquema de memoria virtual basado en segmentación (división):", o:["Un segmento puede incluir elementos como código y variables.", "El segmento de código tiene que estar enteramente cargado en memoria principal.", "Dos procesos no pueden compartir un mismo segmento.", "Cada segmento se corresponde con una división de la imagen de memoria del proceso."], c:3},
+            {u:"UD5", q:"En un esquema de memoria virtual basado en segmentación (desplazamiento):", o:["No hace falta el desplazamiento dentro del segmento para acceder a una posición física.", "El desplazamiento dentro del segmento sólo figura en la dirección física.", "El desplazamiento tiene que ser comparado con la longitud de éste.", "El desplazamiento dentro del segmento sólo figura en la dirección lógica."], c:2},
+            {u:"UD5", q:"En memoria virtual que utilice un esquema de paginación:", o:["Dado un número de página no es posible conocer su dirección lógica de inicio.", "Dado un número de marco no es posible conocer su dirección física de inicio.", "Dado un número de página es posible conocer su dirección física de inicio.", "Dado un número de marco es posible conocer su dirección física de inicio."], c:3},
+            {u:"UD5", q:"Con particiones dinámicas (fragmentación):", o:["Un proceso puede ocupar dos particiones si no hay una lo suficiente grande para ubicarlo.", "No hay fragmentación interna.", "La eficiencia del almacenamiento no depende de la partición.", "No hay fragmentación externa."], c:1},
+            {u:"UD5", q:"En memoria virtual que utilice un esquema de paginación (direcciones):", o:["El segmento de código tiene que almacenarse en una página.", "Las direcciones de entrada a la MMU son direcciones físicas.", "Las direcciones lógicas coinciden con las direcciones secuenciales del proceso.", "Las direcciones físicas coinciden con las direcciones secuenciales del proceso."], c:2},
+            // UD6 - SSOO
+            {u:"UD6", q:"El tercer parámetro de la llamada al sistema open", o:["Sólo tiene sentido si el archivo indicado no existe.", "Establece los privilegios para el usuario propietario del proceso que abre el archivo.", "Establece los privilegios para el proceso que abre el archivo.", "Indican si el archivo se abre para lectura y/o escritura."], c:0},
+            {u:"UD6", q:"El controlador de un dispositivo:", o:["Es el hardware del sistema al que se conecta un nuevo periférico.", "Es el software del sistema que envía órdenes al periférico.", "Puede insertar valores en los registros del procesador.", "Puede insertar valores en la memoria principal del sistema."], c:3},
+            {u:"UD6", q:"Si se utiliza una entrada/salida por interrupciones:", o:["Sólo se puede atender a una interrupción cuando se ejecute un proceso de usuario.", "No se puede interrumpir la rutina de tratamiento de una interrupción.", "La atención de una interrupción siempre se realiza en modo núcleo.", "Se puede ejecutar un proceso de usuario para atender a una interrupción."], c:2},
+            {u:"UD6", q:"El primer parámetro de la llamada al sistema write:", o:["Especifica la ruta del archivo sobre el que se va a escribir.", "Especifica la entrada en la tabla de archivos abiertos del archivo sobre el que se va a escribir.", "Especifica el inodo del archivo sobre el que se va a escribir.", "Especifica un buffer de escritura."], c:1},
+            {u:"UD6", q:"Si se utiliza una entrada/salida por DMA:", o:["Se emite una interrupción cuando los datos están en memoria.", "El proceso que solicita una operación puede seguir ejecutando y se le enviará una interrupción.", "El proceso interrumpido sí puede ser el mismo que solicitó la operación.", "La interrupción es tratada por el proceso que solicitó la operación."], c:0},
+            {u:"UD6", q:"En S_ISDIR(m):", o:["m corresponde al nombre del directorio a comprobar.", "S_ISDIR es una llamada al sistema operativo.", "m corresponde al modo del archivo a comprobar.", "S_ISDIR puede ejecutarse de forma independiente a fstat."], c:2},
+            {u:"UD6", q:"Un enlace blando es:", o:["El nombre de un archivo.", "La entrada de un directorio", "Un archivo que contiene la ruta de otro.", "Un archivo que tiene los inodos de otro archivo."], c:2},
+            {u:"UD6", q:"En los sistemas de archivos basados en inodos:", o:["Un bloque referenciado desde otro puede contener datos o direcciones a otros bloques.", "Los bloques del sistema de archivos pueden contener datos y apuntadores a otros bloques.", "Los datos del archivo pueden almacenarse en distintos inodos.", "Los bloques del sistema de archivos sólo pueden contener datos."], c:0},
+            {u:"UD6", q:"La llamada al sistema lseek(3, 0, SEEK_END):", o:["Sitúa el puntero en la posición 0 para la salida de error estándar.", "Sitúa el puntero al final del primer archivo abierto desde el proceso.", "Sitúa el puntero al final del último archivo abierto desde el proceso.", "Sitúa el puntero en la posición 0 para la salida estándar."], c:1},
+            {u:"UD6", q:"Si se utiliza una entrada/salida por DMA (bloqueo):", o:["El controlador del dispositivo no puede escribir en memoria.", "El controlador del dispositivo interrumpe para que el SO lleve los datos.", "El proceso que solicita una operación queda bloqueado hasta que ésta se complete.", "El proceso que solicita una operación puede continuar su ejecución."], c:2}
+        ];
+
+        let questions = [];
+        let hits = 0, fails = 0, done = 0;
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function initQuiz() {
+            questions = JSON.parse(JSON.stringify(rawQuestions));
+            shuffle(questions);
+            hits = 0; fails = 0; done = 0;
+            updateStats();
+            render();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function updateStats() {
+            document.getElementById('hits').innerText = hits;
+            document.getElementById('fails').innerText = fails;
+            document.getElementById('current').innerText = `${done}/${questions.length}`;
+        }
+
+        function render() {
+            const box = document.getElementById('quiz-box');
+            box.innerHTML = '';
+            questions.forEach((data, i) => {
+                const card = document.createElement('div');
+                card.className = 'q-card';
+                card.innerHTML = `
+                    <span class="unit-badge">${data.u}</span>
+                    <div class="question-text"><strong>${i+1}.</strong> ${data.q}</div>
+                    <div class="options-container" id="opts-${i}">
+                        ${data.o.map((opt, oi) => `<div class="option" onclick="check(${i}, ${oi})">${opt}</div>`).join('')}
+                    </div>
+                `;
+                box.appendChild(card);
+            });
+        }
+
+        window.check = (qi, oi) => {
+            const container = document.getElementById(`opts-${qi}`);
+            if(container.classList.contains('disabled')) return;
+            
+            const options = container.querySelectorAll('.option');
+            const correct = questions[qi].c;
+            
+            if(oi === correct) {
+                options[oi].classList.add('correct');
+                hits++;
+            } else {
+                options[oi].classList.add('wrong');
+                options[correct].classList.add('correct');
+                fails++;
+            }
+            
+            done++;
+            container.classList.add('disabled');
+            updateStats();
+            
+            if(done === questions.length) showFinalResults();
+        };
+
+        function showFinalResults() {
+            const grade = ((hits / questions.length) * 10).toFixed(2);
+            document.getElementById('final-stats').innerHTML = `
+                <div style="font-size: 1.1rem">
+                    Aciertos: <span style="color:var(--success); font-weight:bold">${hits}</span><br>
+                    Fallos: <span style="color:var(--error); font-weight:bold">${fails}</span><br>
+                    <strong>Nota final: ${grade} / 10</strong>
+                </div>
+            `;
+            document.getElementById('results-modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('results-modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+            initQuiz();
+        }
+
+        // Iniciar al cargar la página
+        initQuiz();
+    </script>
+</body>
+</html>
