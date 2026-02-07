@@ -1,215 +1,346 @@
-import React, { useState, useEffect } from 'react';
-import { Calculator, Info, GraduationCap, Percent } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ponderar notas UAX</title>
+    <!-- Tailwind CSS para el diseño -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para los iconos -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Estilos personalizados para el input range */
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: #1d4ed8;
+            cursor: pointer;
+            margin-top: -6px;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #f1f5f9;
+            border-radius: 3px;
+        }
+        /* Ocultar flechas de input number */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-900 pb-12">
 
-const App = () => {
-  // Configuración de pesos (Reglas UAX)
-  const PESO_EXAMEN = 0.60;
-  const PESO_FEEDBACK_1 = 0.08;
-  const PESO_FEEDBACK_2 = 0.08;
-  const PESO_FEEDBACK_FINAL = 0.16;
-  const PESO_TESTS = 0.08;
-
-  // Estados iniciales precargados con 9
-  const [examen, setExamen] = useState(9);
-  const [f1, setF1] = useState(9);
-  const [f2, setF2] = useState(9);
-  const [fFinal, setFFinal] = useState(9);
-  const [numTests, setNumTests] = useState(6);
-  const [testGrades, setTestGrades] = useState(Array(6).fill(9));
-  const [notaFinal, setNotaFinal] = useState(0);
-
-  // Recalcular la nota automáticamente
-  useEffect(() => {
-    const calcularNota = () => {
-      const testsActivos = testGrades.slice(0, numTests);
-      const mediaTests = testsActivos.reduce((acc, val) => acc + val, 0) / numTests;
-      
-      const nota = 
-        (examen * PESO_EXAMEN) +
-        (f1 * PESO_FEEDBACK_1) +
-        (f2 * PESO_FEEDBACK_2) +
-        (fFinal * PESO_FEEDBACK_FINAL) +
-        (mediaTests * PESO_TESTS);
-      
-      setNotaFinal(nota.toFixed(2));
-    };
-
-    calcularNota();
-  }, [examen, f1, f2, fFinal, numTests, testGrades]);
-
-  const handleTestChange = (index, value) => {
-    const nuevasNotas = [...testGrades];
-    const val = value.replace(',', '.');
-    nuevasNotas[index] = parseFloat(val) || 0;
-    setTestGrades(nuevasNotas);
-  };
-
-  const InputNota = ({ label, value, onChange, weight }) => (
-    <div className="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 transition-all hover:border-blue-200">
-      <div className="flex justify-between items-center mb-3">
-        <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">{label}</label>
-        <span className="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">
-          {Math.round(weight * 100)}%
-        </span>
-      </div>
-      <div className="flex items-center gap-4">
-        <input
-          type="range"
-          min="0"
-          max="10"
-          step="0.1"
-          value={value}
-          onChange={(e) => onChange(parseFloat(e.target.value))}
-          className="flex-grow h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600"
-        />
-        <div className="min-w-[45px] text-right">
-          <span className="text-xl font-black text-slate-800">{value}</span>
-        </div>
-      </div>
-    </div>
-  );
-
-  return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 pb-12">
-      {/* Header optimizado para móvil */}
-      <header className="bg-white border-b border-slate-200 sticky top-0 z-20 px-4 py-4 mb-6 md:static md:bg-transparent md:border-none md:py-8">
-        <div className="max-w-5xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-blue-700 p-2.5 rounded-xl shadow-lg shadow-blue-200 text-white">
-              <GraduationCap size={24} className="md:w-7 md:h-7" />
-            </div>
-            <div>
-              <h1 className="text-lg md:text-2xl font-black tracking-tight text-slate-900">Ponderar notas UAX</h1>
-              <p className="hidden md:block text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">Simulador de Calificaciones Oficial</p>
-            </div>
-          </div>
-          
-          {/* Widget de resultado rápido en móvil */}
-          <div className="md:hidden flex flex-col items-end">
-            <div className={`text-2xl font-black ${notaFinal >= 5 ? 'text-green-600' : 'text-red-600'}`}>
-              {notaFinal}
-            </div>
-            <span className="text-[9px] text-slate-400 font-bold uppercase">Nota Final</span>
-          </div>
-        </div>
-      </header>
-
-      <main className="px-4 max-w-5xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
-          
-          {/* Entradas */}
-          <div className="lg:col-span-8 space-y-5">
-            <div className="flex items-center gap-2 mb-2 ml-1">
-              <Percent size={16} className="text-blue-600" />
-              <h2 className="text-xs font-black uppercase tracking-widest text-slate-400">Distribución de Pesos</h2>
+    <!-- Header optimizado para móvil -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-20 px-4 py-4 mb-6 md:static md:bg-transparent md:border-none md:py-8">
+        <div class="max-w-5xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="bg-blue-700 p-2.5 rounded-xl shadow-lg shadow-blue-200 text-white">
+                    <i data-lucide="graduation-cap" class="w-6 h-6 md:w-7 md:h-7"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-2xl font-black tracking-tight text-slate-900">Ponderar notas UAX</h1>
+                    <p class="hidden md:block text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-0.5">Simulador de Calificaciones Oficial</p>
+                </div>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="md:col-span-2">
-                <InputNota label="Examen Final" value={examen} onChange={setExamen} weight={PESO_EXAMEN} />
-              </div>
-              <InputNota label="Feedback 1" value={f1} onChange={setF1} weight={PESO_FEEDBACK_1} />
-              <InputNota label="Feedback 2" value={f2} onChange={setF2} weight={PESO_FEEDBACK_2} />
-              <div className="md:col-span-2">
-                <InputNota label="Feedback Final" value={fFinal} onChange={setFFinal} weight={PESO_FEEDBACK_FINAL} />
-              </div>
+            <!-- Widget de resultado rápido en móvil -->
+            <div class="md:hidden flex flex-col items-end">
+                <div id="mobile-total-display" class="text-2xl font-black text-slate-900">9.00</div>
+                <span class="text-[9px] text-slate-400 font-bold uppercase">Nota Final</span>
             </div>
+        </div>
+    </header>
 
-            {/* Tests Section */}
-            <section className="bg-white p-5 md:p-7 rounded-3xl shadow-sm border border-slate-100 mt-6">
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-                <div>
-                  <h3 className="text-lg font-black text-slate-800">Cuestionarios</h3>
-                  <p className="text-xs text-slate-400 font-medium">8% de la nota total (media aritmética)</p>
-                </div>
-                <div className="inline-flex bg-slate-100 p-1 rounded-xl w-full sm:w-auto">
-                  <button 
-                    onClick={() => setNumTests(5)}
-                    className={`flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all ${numTests === 5 ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500'}`}
-                  >
-                    5 Tests
-                  </button>
-                  <button 
-                    onClick={() => setNumTests(6)}
-                    className={`flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all ${numTests === 6 ? 'bg-white text-blue-700 shadow-sm' : 'text-slate-500'}`}
-                  >
-                    6 Tests
-                  </button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
-                {Array.from({ length: numTests }).map((_, idx) => (
-                  <div key={idx} className="flex flex-col">
-                    <span className="text-[9px] font-black text-slate-300 mb-1 ml-1 uppercase">UD {idx + 1}</span>
-                    <input 
-                      type="number"
-                      value={testGrades[idx]}
-                      onChange={(e) => handleTestChange(idx, e.target.value)}
-                      className="w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 focus:bg-white p-3 rounded-xl text-center font-black text-lg transition-all outline-none"
-                    />
-                  </div>
-                ))}
-              </div>
-            </section>
-          </div>
-
-          {/* Resultado Lateral */}
-          <aside className="lg:col-span-4">
-            <div className="sticky top-28 space-y-4">
-              <div className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/60 border border-slate-100 text-center relative overflow-hidden">
-                <div className={`absolute top-0 left-0 w-full h-2.5 ${notaFinal >= 5 ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                
-                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Nota Final Estimada</span>
-                <div className={`text-8xl font-black my-4 tracking-tighter ${notaFinal >= 5 ? 'text-slate-900' : 'text-red-600'}`}>
-                  {notaFinal}
+    <main class="px-4 max-w-5xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
+            
+            <!-- Sección de Entradas -->
+            <div class="lg:col-span-8 space-y-5">
+                <div class="flex items-center gap-2 mb-2 ml-1">
+                    <i data-lucide="percent" class="w-4 h-4 text-blue-600"></i>
+                    <h2 class="text-xs font-black uppercase tracking-widest text-slate-400">Distribución de Pesos</h2>
                 </div>
                 
-                <div className={`inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs font-black ${
-                  notaFinal >= 9 ? 'bg-yellow-100 text-yellow-700' :
-                  notaFinal >= 7 ? 'bg-blue-100 text-blue-700' :
-                  notaFinal >= 5 ? 'bg-green-100 text-green-700' :
-                  'bg-red-100 text-red-700'
-                }`}>
-                  {notaFinal >= 9 ? 'SOBRESALIENTE' : 
-                   notaFinal >= 7 ? 'NOTABLE' : 
-                   notaFinal >= 5 ? 'APROBADO' : 
-                   'SUSPENSO'}
-                </div>
-              </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Examen Final -->
+                    <div class="md:col-span-2 bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 transition-all hover:border-blue-200">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Examen Final</label>
+                            <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">60%</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <input type="range" id="input-examen" min="0" max="10" step="0.1" value="9" class="flex-grow h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            <div class="min-w-[45px] text-right">
+                                <span id="val-examen" class="text-xl font-black text-slate-800">9</span>
+                            </div>
+                        </div>
+                    </div>
 
-              {/* Info Card */}
-              <div className="bg-slate-900 rounded-[2rem] p-6 text-white shadow-lg">
-                <div className="flex items-center gap-2 mb-4">
-                  <Info size={14} className="text-blue-400" />
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-blue-100">Resumen de Ponderación</h4>
+                    <!-- Feedback 1 -->
+                    <div class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 transition-all hover:border-blue-200">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Feedback 1</label>
+                            <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">8%</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <input type="range" id="input-f1" min="0" max="10" step="0.1" value="9" class="flex-grow h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            <div class="min-w-[45px] text-right">
+                                <span id="val-f1" class="text-xl font-black text-slate-800">9</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback 2 -->
+                    <div class="bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 transition-all hover:border-blue-200">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Feedback 2</label>
+                            <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">8%</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <input type="range" id="input-f2" min="0" max="10" step="0.1" value="9" class="flex-grow h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            <div class="min-w-[45px] text-right">
+                                <span id="val-f2" class="text-xl font-black text-slate-800">9</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Feedback Final -->
+                    <div class="md:col-span-2 bg-white p-4 md:p-5 rounded-2xl shadow-sm border border-slate-100 transition-all hover:border-blue-200">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">Feedback Final</label>
+                            <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-md">16%</span>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <input type="range" id="input-fFinal" min="0" max="10" step="0.1" value="9" class="flex-grow h-2 bg-slate-100 rounded-lg appearance-none cursor-pointer accent-blue-600">
+                            <div class="min-w-[45px] text-right">
+                                <span id="val-fFinal" class="text-xl font-black text-slate-800">9</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
-                    <span className="text-slate-400">Examen</span>
-                    <span className="font-bold text-blue-400">60%</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs border-b border-slate-800 pb-2">
-                    <span className="text-slate-400">Feedbacks Totales</span>
-                    <span className="font-bold text-blue-400">32%</span>
-                  </div>
-                  <div className="flex justify-between items-center text-xs">
-                    <span className="text-slate-400">Tests Unidades</span>
-                    <span className="font-bold text-blue-400">8%</span>
-                  </div>
-                </div>
-              </div>
+
+                <!-- Sección de Cuestionarios -->
+                <section class="bg-white p-5 md:p-7 rounded-3xl shadow-sm border border-slate-100 mt-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                        <div>
+                            <h3 class="text-lg font-black text-slate-800">Cuestionarios</h3>
+                            <p class="text-xs text-slate-400 font-medium">8% de la nota total (media aritmética)</p>
+                        </div>
+                        <div class="inline-flex bg-slate-100 p-1 rounded-xl w-full sm:w-auto">
+                            <button id="btn-tests-5" class="flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all text-slate-500 hover:text-blue-600">
+                                5 Tests
+                            </button>
+                            <button id="btn-tests-6" class="flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all bg-white text-blue-700 shadow-sm">
+                                6 Tests
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="tests-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
+                        <!-- Generado por JS -->
+                    </div>
+                </section>
             </div>
-          </aside>
+
+            <!-- Resultado Lateral -->
+            <aside class="lg:col-span-4">
+                <div class="sticky top-28 space-y-4">
+                    <div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200/60 border border-slate-100 text-center relative overflow-hidden">
+                        <div id="status-bar" class="absolute top-0 left-0 w-full h-2.5 bg-green-500"></div>
+                        
+                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Nota Final Estimada</span>
+                        <div id="total-display" class="text-8xl font-black my-4 tracking-tighter text-slate-900">
+                            9.00
+                        </div>
+                        
+                        <div id="badge-display" class="inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs font-black bg-blue-100 text-blue-700">
+                            NOTABLE
+                        </div>
+                    </div>
+
+                    <!-- Info Card -->
+                    <div class="bg-slate-900 rounded-[2rem] p-6 text-white shadow-lg">
+                        <div class="flex items-center gap-2 mb-4">
+                            <i data-lucide="info" class="w-3.5 h-3.5 text-blue-400"></i>
+                            <h4 class="text-[10px] font-black uppercase tracking-widest text-blue-100">Resumen de Ponderación</h4>
+                        </div>
+                        <div class="space-y-3 text-xs">
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                <span class="text-slate-400">Examen</span>
+                                <span class="font-bold text-blue-400">60%</span>
+                            </div>
+                            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                                <span class="text-slate-400">Feedbacks Totales</span>
+                                <span class="font-bold text-blue-400">32%</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-400">Tests Unidades</span>
+                                <span class="font-bold text-blue-400">8%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
 
         </div>
-      </main>
-      
-      <footer className="mt-12 text-center">
-        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">UAX • Herramienta de Planificación Académica</p>
-      </footer>
-    </div>
-  );
-};
+    </main>
+    
+    <footer class="mt-12 text-center">
+        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">UAX • Herramienta de Planificación Académica</p>
+    </footer>
 
-export default App;
+    <script>
+        // Inicialización de iconos
+        lucide.createIcons();
+
+        // Configuración
+        const PESO_EXAMEN = 0.60;
+        const PESO_FEEDBACK_1 = 0.08;
+        const PESO_FEEDBACK_2 = 0.08;
+        const PESO_FEEDBACK_FINAL = 0.16;
+        const PESO_TESTS = 0.08;
+
+        let numTests = 6;
+        let testGrades = [9, 9, 9, 9, 9, 9];
+
+        // Elementos DOM
+        const inputExamen = document.getElementById('input-examen');
+        const inputF1 = document.getElementById('input-f1');
+        const inputF2 = document.getElementById('input-f2');
+        const inputFFinal = document.getElementById('input-fFinal');
+        
+        const displayExamen = document.getElementById('val-examen');
+        const displayF1 = document.getElementById('val-f1');
+        const displayF2 = document.getElementById('val-f2');
+        const displayFFinal = document.getElementById('val-fFinal');
+
+        const totalDisplay = document.getElementById('total-display');
+        const mobileTotalDisplay = document.getElementById('mobile-total-display');
+        const badgeDisplay = document.getElementById('badge-display');
+        const statusBar = document.getElementById('status-bar');
+        const testsGrid = document.getElementById('tests-grid');
+
+        const btnTests5 = document.getElementById('btn-tests-5');
+        const btnTests6 = document.getElementById('btn-tests-6');
+
+        // Función para renderizar los inputs de los tests
+        function renderTests() {
+            testsGrid.innerHTML = '';
+            for (let i = 0; i < numTests; i++) {
+                const container = document.createElement('div');
+                container.className = 'flex flex-col';
+                
+                const label = document.createElement('span');
+                label.className = 'text-[9px] font-black text-slate-300 mb-1 ml-1 uppercase';
+                label.innerText = `UD ${i + 1}`;
+                
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.value = testGrades[i] || 0;
+                input.className = 'w-full bg-slate-50 border-2 border-transparent focus:border-blue-500 focus:bg-white p-3 rounded-xl text-center font-black text-lg transition-all outline-none';
+                
+                input.addEventListener('input', (e) => {
+                    let val = e.target.value.replace(',', '.');
+                    testGrades[i] = parseFloat(val) || 0;
+                    calculateTotal();
+                });
+
+                container.appendChild(label);
+                container.appendChild(input);
+                testsGrid.appendChild(container);
+            }
+        }
+
+        // Función principal de cálculo
+        function calculateTotal() {
+            const valExamen = parseFloat(inputExamen.value);
+            const valF1 = parseFloat(inputF1.value);
+            const valF2 = parseFloat(inputF2.value);
+            const valFFinal = parseFloat(inputFFinal.value);
+
+            // Actualizar etiquetas visuales de los sliders
+            displayExamen.innerText = valExamen;
+            displayF1.innerText = valF1;
+            displayF2.innerText = valF2;
+            displayFFinal.innerText = valFFinal;
+
+            // Media de tests
+            const activeTests = testGrades.slice(0, numTests);
+            const mediaTests = activeTests.reduce((acc, val) => acc + val, 0) / numTests;
+
+            // Nota final
+            const total = 
+                (valExamen * PESO_EXAMEN) +
+                (valF1 * PESO_FEEDBACK_1) +
+                (valF2 * PESO_FEEDBACK_2) +
+                (valFFinal * PESO_FEEDBACK_FINAL) +
+                (mediaTests * PESO_TESTS);
+
+            const finalFormatted = total.toFixed(2);
+            
+            // Actualizar UI
+            totalDisplay.innerText = finalFormatted;
+            mobileTotalDisplay.innerText = finalFormatted;
+
+            // Estilos según la nota
+            if (total >= 9) {
+                badgeDisplay.innerText = 'SOBRESALIENTE';
+                badgeDisplay.className = 'inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs font-black bg-yellow-100 text-yellow-700';
+                statusBar.className = 'absolute top-0 left-0 w-full h-2.5 bg-yellow-500';
+                totalDisplay.className = 'text-8xl font-black my-4 tracking-tighter text-slate-900';
+                mobileTotalDisplay.className = 'text-2xl font-black text-slate-900';
+            } else if (total >= 7) {
+                badgeDisplay.innerText = 'NOTABLE';
+                badgeDisplay.className = 'inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs font-black bg-blue-100 text-blue-700';
+                statusBar.className = 'absolute top-0 left-0 w-full h-2.5 bg-blue-500';
+                totalDisplay.className = 'text-8xl font-black my-4 tracking-tighter text-slate-900';
+                mobileTotalDisplay.className = 'text-2xl font-black text-slate-900';
+            } else if (total >= 5) {
+                badgeDisplay.innerText = 'APROBADO';
+                badgeDisplay.className = 'inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs font-black bg-green-100 text-green-700';
+                statusBar.className = 'absolute top-0 left-0 w-full h-2.5 bg-green-500';
+                totalDisplay.className = 'text-8xl font-black my-4 tracking-tighter text-slate-900';
+                mobileTotalDisplay.className = 'text-2xl font-black text-green-600';
+            } else {
+                badgeDisplay.innerText = 'SUSPENSO';
+                badgeDisplay.className = 'inline-flex items-center gap-2 px-5 py-1.5 rounded-full text-xs font-black bg-red-100 text-red-700';
+                statusBar.className = 'absolute top-0 left-0 w-full h-2.5 bg-red-500';
+                totalDisplay.className = 'text-8xl font-black my-4 tracking-tighter text-red-600';
+                mobileTotalDisplay.className = 'text-2xl font-black text-red-600';
+            }
+        }
+
+        // Event Listeners para Sliders
+        [inputExamen, inputF1, inputF2, inputFFinal].forEach(el => {
+            el.addEventListener('input', calculateTotal);
+        });
+
+        // Event Listeners para Botones de selección de Test
+        btnTests5.addEventListener('click', () => {
+            numTests = 5;
+            btnTests5.className = 'flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all bg-white text-blue-700 shadow-sm';
+            btnTests6.className = 'flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all text-slate-500 hover:text-blue-600';
+            renderTests();
+            calculateTotal();
+        });
+
+        btnTests6.addEventListener('click', () => {
+            numTests = 6;
+            btnTests6.className = 'flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all bg-white text-blue-700 shadow-sm';
+            btnTests5.className = 'flex-1 sm:flex-none px-5 py-2 rounded-lg text-xs font-bold transition-all text-slate-500 hover:text-blue-600';
+            renderTests();
+            calculateTotal();
+        });
+
+        // Render inicial
+        renderTests();
+        calculateTotal();
+    </script>
+</body>
+</html>
