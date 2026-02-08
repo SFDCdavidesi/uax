@@ -32,7 +32,7 @@
             min-height: 100vh;
             margin: 0;
             padding: 0;
-            overflow-x: hidden; /* Evita scroll horizontal en móviles */
+            overflow-x: hidden;
         }
 
         /* Header Ajustado para Mobile-First */
@@ -101,6 +101,7 @@
         .bg-nota { background: rgba(52, 211, 153, 0.2); color: #34d399; }
         .bg-estr { background: rgba(167, 139, 250, 0.2); color: #a78bfa; }
         .bg-audios { background: rgba(251, 146, 60, 0.2); color: #fb923c; }
+        .bg-admin { background: rgba(244, 63, 94, 0.2); color: #f43f5e; } /* Rojo para Admin/Seguridad */
 
         .card-footer-info {
             margin-top: auto;
@@ -137,8 +138,26 @@
             </div>
         </header>
 
-        <!-- Grid de Aplicaciones: Mobile-First (1 columna -> 2 columnas -> 4 columnas) -->
+        <!-- Grid de Aplicaciones -->
         <main class="row g-4 mb-5">
+            <!-- Card: Administración de Sistemas (NUEVA) -->
+            <div class="col-12 col-md-6 col-lg-3 fade-in-up">
+                <a href="administracion_de_sistemas.html" class="custom-card">
+                    <div class="icon-box bg-admin">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="h5 fw-bold">Admin. de Sistemas</h3>
+                    <p class="text-secondary small">Seguridad, Redes, Radius y Directorio Activo (100 preguntas).</p>
+                    <div class="card-footer-info">
+                        <hr class="my-3 opacity-10">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-danger small fw-bold">Test Interactivo</span>
+                            <i class="fa-solid fa-chevron-right text-danger"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
             <!-- Card: SSOO -->
             <div class="col-12 col-md-6 col-lg-3 fade-in-up">
                 <a href="ssoo.html" class="custom-card">
@@ -157,24 +176,6 @@
                 </a>
             </div>
 
-            <!-- Card: Calcula Nota -->
-            <div class="col-12 col-md-6 col-lg-3 fade-in-up">
-                <a href="calculonota.html" class="custom-card">
-                    <div class="icon-box bg-nota">
-                        <i class="fa-solid fa-calculator"></i>
-                    </div>
-                    <h3 class="h5 fw-bold">Calculadora UAX</h3>
-                    <p class="text-secondary small">Cálculo de notas ponderadas oficial.</p>
-                    <div class="card-footer-info">
-                        <hr class="my-3 opacity-10">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-success small fw-bold">Gestión de Notas</span>
-                            <i class="fa-solid fa-chevron-right text-success"></i>
-                        </div>
-                    </div>
-                </a>
-            </div>
-
             <!-- Card: Estructura -->
             <div class="col-12 col-md-6 col-lg-3 fade-in-up">
                 <a href="estructura.html" class="custom-card">
@@ -188,6 +189,24 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="text-primary small fw-bold">Test Interactivo</span>
                             <i class="fa-solid fa-chevron-right text-primary"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Card: Calcula Nota -->
+            <div class="col-12 col-md-6 col-lg-3 fade-in-up">
+                <a href="calculonota.html" class="custom-card">
+                    <div class="icon-box bg-nota">
+                        <i class="fa-solid fa-calculator"></i>
+                    </div>
+                    <h3 class="h5 fw-bold">Calculadora UAX</h3>
+                    <p class="text-secondary small">Cálculo de notas ponderadas oficial.</p>
+                    <div class="card-footer-info">
+                        <hr class="my-3 opacity-10">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-success small fw-bold">Gestión de Notas</span>
+                            <i class="fa-solid fa-chevron-right text-success"></i>
                         </div>
                     </div>
                 </a>
