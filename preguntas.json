@@ -1,1 +1,552 @@
-[{"u": "Servicios Windows","q": "1. El servicio que debo desplegar en Windows para instalar un servidor de ficheros es...","o": ["Ninguna es correcta.","File and Storage Services.","Files and network units Services.","Files and Folders Services."],"c": 1},{"u": "Seguridad","q": "2. ¿Qué puerto se emplea para la autenticación por SSH?","o": ["23.","22.","33.","21."],"c": 1},{"u": "Directorio Activo","q": "3. El método de control de acceso a red empleado por un servidor de directorio activo es...","o": ["802.1X.","Kerberos.","LDAP.","Todas las respuestas son correctas."],"c": 3},{"u": "Virtualización","q": "4. ¿Qué extensión tiene el fichero que me permite desplegar una máquina preconfigurada en VirtualBox?","o": [".ofv.",".osa.",".ova.","Ninguna de las respuestas es correcta."],"c": 2},{"u": "Seguridad / Firewall","q": "5. Regla Firewall: 192.168.1.100 --- 190.146.2.200 --- FTP --- Deny","o": ["La ip 190.146.2.200 no accede a la 192.168.1.100 por puerto 21.","La ip 192.168.1.100 no accede a la 190.146.2.200 por puerto 21.","La ip 192.168.1.100 podrá acceder por puerto 21.","Ninguna es correcta."],"c": 1},{"u": "Seguridad","q": "6. ¿Qué nombre recibe la parte de un exploit donde se define la acción del mismo?","o": ["Payload.","Paintball.","Payball.","Ninguna es correcta."],"c": 0},{"u": "Cultura IT","q": "7. Bill Gates sufrió un pantallazo azul en la presentación de...","o": ["Windows 3.1.","Windows 98.","Ninguna es correcta.","Windows 95."],"c": 1},{"u": "Radius / WiFi","q": "8. ¿Puede un servidor Radius controlar el acceso a la red?","o": ["Si, sólo si es WiFi.","No, solo sistemas y clientes.","Si.","Todas son correctas."],"c": 2},{"u": "Seguridad / Redes","q": "9. El anonimato en la DarkNet se pretende conseguir mediante...","o": ["Una red de servidores Proxy.","Ninguna es correcta.","DHCP dinámicos.","Servidores DNS."],"c": 0},{"u": "Redes / DNS","q": "10. Un servidor DNS relaciona...","o": ["Nombres con IPs.","IPs con MACs.","IPs con usuarios.","Ninguna es correcta."],"c": 0},{"u": "Malware","q": "11. Un virus con una 'reverse shell' pretende...","o": ["Denegación de servicio.","Ninguna es correcta.","Obtención de credenciales.","El control remoto de la máquina."],"c": 3},{"u": "Seguridad","q": "12. Un ataque de tipo Phishing consiste en...","o": ["Denegación de servicio.","Ninguna es correcta.","Clonar una web y enviar un link malicioso.","Modificación DNS."],"c": 2},{"u": "Radius","q": "13. La contraseña compartida Radius-Cliente se configura en...","o": ["El servidor LDAP.","Cliente y servidor LDAP.","Solo en el cliente.","Ninguna es correcta (Cliente RADIUS y Servidor NPS)."],"c": 3},{"u": "Virtualización","q": "14. Con 16GB de RAM, ¿Cuántas máquinas puedo tener configuradas en VirtualBox?","o": ["1.","Ninguna es correcta.","Todas las que necesite (configuradas, no encendidas).","4."],"c": 2},{"u": "Web / Seguridad","q": "15. Un ataque XSS consiste en...","o": ["Cifrado de ficheros (Ransomware).","Ninguna es correcta.","Modificación de formularios.","Inyección de código malicioso en áreas de texto."],"c": 3},{"u": "Firewall","q": "16. Técnica para evadir firewalls:","o": ["Tunneling.","Ninguna es correcta.","VPN.","Ofuscación."],"c": 0},{"u": "Firewall","q": "17. Regla: 192.168.1.100 --- 190.146.2.200 --- HTTP --- Deny","o": ["La 192.168.1.100 accede a la 190.146.2.200 por el 443.","La 190.146.2.200 no accede a la 192.168.1.100 por el 443.","La 192.168.1.100 no accede a la 190.146.2.200 por el 443.","Ninguna es correcta."],"c": 0},{"u": "Radius","q": "18. Política actual recomendada en Radius:","o": ["Permisiva.","Todas son correctas.","Restrictiva.","Cualquiera."],"c": 2},{"u": "Directorio Activo","q": "19. A nivel de seguridad un Directorio Activo permite...","o": ["Obligar a cumplir política de contraseñas.","Asignar IPs controladas.","Ninguna es correcta.","Filtrar MACs."],"c": 0},{"u": "WiFi / LDAP","q": "20. La autenticación WiFi corporativa se realizará...","o": ["Consulta a BD web.","Base de datos local.","Ninguna es correcta.","Consulta a servidor LDAP."],"c": 3},{"u": "Directorio Activo","q": "21. ¿Puede un usuario pertenecer a varios grupos en AD?","o": ["Solo si es administrador.","Ninguna es correcta.","Sí, cualquier usuario.","No, solo a uno."],"c": 2},{"u": "Radius / WiFi","q": "22. En WiFi sin controlador con Radius, ¿Qué clientes configuro en el Radius?","o": ["Todos los APs de la red.","IPs de APs y controlador.","La dirección de red completa.","La IP del controlador."],"c": 0},{"u": "Servidores Web","q": "23. Si tengo un servidor Apache...","o": ["Ninguna es correcta.","Puede ser Windows o Linux.","Es solo Windows.","Es solo Linux."],"c": 1},{"u": "Directorio Activo","q": "24. Para asociar un cliente al dominio es necesario...","o": ["Estar en la misma red.","Ninguna es correcta.","Poder hacerse Ping entre ambos.","Mismo Sistema Operativo."],"c": 2},{"u": "Virtualización","q": "25. La comunicación entre dos VMs en el mismo host se realiza...","o": ["Ninguna es correcta.","Mediante un Switch virtual.","Depende de la IP.","Mediante la tarjeta física."],"c": 1},{"u": "Radius","q": "26. ¿Puede un Radius gestionar el acceso a otros servidores?","o": ["Sí, incluso el nivel de acceso.","No, requieren cuentas locales.","No, es solo para clientes.","Ninguna es correcta."],"c": 0},{"u": "Virtualización","q": "27. Modo de red para que host y VMs estén en la misma LAN e internet:","o": ["Anfitrión.","Bridge (Puente).","NAT.","Ninguna es correcta."],"c": 1},{"u": "Radius","q": "28. El control de acceso en Radius Windows se realiza en...","o": ["Configuración de clientes.","Políticas de conexión.","Políticas de acceso.","Ninguna es correcta."],"c": 2},{"u": "DNS / AD","q": "29. ¿Por qué es necesario DNS en un Directorio Activo?","o": ["Para asociar clientes al dominio.","Por el nombre del dominio.","Todas son correctas.","Por la IP del servidor."],"c": 2},{"u": "Seguridad","q": "30. Un ataque Pharming consiste en...","o": ["Clonar web y enviar link.","Modificación en las solicitudes DNS.","Denegación de servicio.","Ninguna es correcta."],"c": 1},{"u": "Ficheros","q": "31. Puerto predeterminado SFTP:","o": ["21.","Ninguna es correcta.","22.","23."],"c": 2},{"u": "Malware","q": "32. Un virus tipo gusano busca...","o": ["Propagarse (Ninguna es correcta).","Credenciales.","Denegación de servicio.","Control remoto."],"c": 0},{"u": "Almacenamiento","q": "33. Virtualización con 2 hosts, ¿Cuántos storages compartidos mínimo?","o": ["2 en clúster.","Solo 1.","Ninguna es correcta.","2, uno por host."],"c": 1},{"u": "Firewall","q": "34. Política recomendada hoy en Firewall:","o": ["Restrictiva.","Todas son correctas.","Permisiva.","Mixta."],"c": 0},{"u": "Virtualización","q": "35. ¿Puedo virtualizar máquinas de redes diferentes en un host?","o": ["Sí, con switch físico.","Sí, con router físico.","Ninguna es correcta.","Sí, con switch virtual."],"c": 3},{"u": "Virtualización","q": "36. Host 16GB RAM, ¿Cuántas VMs de 4GB corriendo a la vez?","o": ["Todas las que quiera.","Ninguna es correcta (depende del SO host).","4.","1."],"c": 1},{"u": "DHCP","q": "37. Un servidor DHCP...","o": ["Asigna IPs dinámicamente.","Traduce nombres.","Autentica usuarios.","Todas son correctas."],"c": 0},{"u": "Radius","q": "38. En Radius se crean políticas por...","o": ["MAC.","Todas son correctas.","Usuario.","IP."],"c": 1},{"u": "Radius / WiFi","q": "39. Método de autenticación WiFi corporativo en Radius:","o": ["PEAP.","EAP.","Ninguna es correcta.","PAP."],"c": 0},{"u": "Radius Linux","q": "40. Problema común de Radius en Linux:","o": ["Falsos negativos.","Complejidad de configuración.","Ninguna es correcta.","Falsos positivos."],"c": 1},{"u": "Firewall","q": "41. Evaluación de reglas en Firewall:","o": ["La más permisiva.","Secuencial (de arriba a abajo).","La menos restrictiva.","La más restrictiva."],"c": 1},{"u": "Firewall","q": "42. Regla: 192.168.1.100 --- 192.168.1.50 --- 80 --- Allow","o": ["Ninguna es correcta.","La 50 accede a la 100 por HTTP.","La 100 accede a la 50 por HTTPS.","La 50 accede a la 100 por HTTPS."],"c": 0},{"u": "Virtualización","q": "43. Mover una VM de un host a otro encendida:","o": ["VMotion.","BeHappy.","VMoving.","VTransfer."],"c": 0},{"u": "Radius","q": "44. Un servidor Radius es un sistema de...","o": ["Control de usuarios.","Acceso a red.","Autenticación dispositivos.","Todas son correctas."],"c": 3},{"u": "Virtualización","q": "45. Error de licencia Windows Server en VirtualBox:","o": ["Reiniciar.","Ninguna es correcta.","Modo Desktop.","Desconectar ISO del DVD virtual."],"c": 3},{"u": "Malware","q": "46. Un troyano busca...","o": ["Denegación de servicio.","Credenciales.","Ninguna es correcta.","Control remoto."],"c": 3},{"u": "Web","q": "47. Puerto SSL (HTTPS):","o": ["Ninguna es correcta.","80.","22.","443."],"c": 3},{"u": "Directorio Activo","q": "48. Sin conexión al AD, primera opción para entrar:","o": ["Cuenta Administrador Local.","Desconectar red.","Modo Live.","Ninguna es correcta."],"c": 0},{"u": "DHCP","q": "49. Tiempo de concesión de IP:","o": ["Lease Time.","Less Time.","TTL.","Ninguna es correcta."],"c": 0},{"u": "Directorio Activo","q": "50. ¿Grupo con un único usuario en AD?","o": ["No, mínimo dos.","Sí.","Ninguna es correcta.","Solo si el admin está."],"c": 1},{"u": "T1: Sistemas","q": "51. SO que ejecuta dos programas a la vez:","o": ["Multiusuario.","Monotarea.","Monousuario.","Ninguna (Multitarea)."],"c": 3},{"u": "T1: Sistemas","q": "52. La línea de comandos en Windows es...","o": ["Una shell.","Sistema MSDOS.","Acceso al kernel.","Ninguna."],"c": 0},{"u": "T1: Sistemas","q": "53. Bill Gates falló con pantalla azul en...","o": ["Windows 98.","Windows 95.","Ninguna.","Windows 3.1."],"c": 0},{"u": "T1: Sistemas","q": "54. Primer intento de Multitarea:","o": ["Ninguna.","Windows 98.","Windows 95.","Windows 3.1."],"c": 3},{"u": "T1: Sistemas","q": "55. El sistema DOS era...","o": ["Ninguna.","Multitarea.","Monousuario.","Multiusuario."],"c": 2},{"u": "T1: Sistemas","q": "56. Ejecución de tareas consecutivas:","o": ["Multiusuario.","Multitarea.","Monousuario.","Ninguna."],"c": 3},{"u": "T1: Sistemas","q": "57. Multitarea realmente operativo en...","o": ["Windows 95.","Windows 3.1.","Windows 98.","Ninguna."],"c": 0},{"u": "T1: Sistemas","q": "58. SO que permite varios usuarios:","o": ["Multiusuario.","Depende de tareas.","Ninguna.","Puede ser Monousuario (solo 1 activo)."],"c": 0},{"u": "T1: Sistemas","q": "59. Un Smartphone es...","o": ["Multiusuario.","Multitarea.","Todas.","Ninguna."],"c": 1},{"u": "T1: Sistemas","q": "60. Una tablet es...","o": ["Todas.","Multitarea.","Ninguna.","Multiusuario."],"c": 1},{"u": "T2: Virtualización","q": "61. Desplegar VM en VirtualBox con...","o": ["Fichero .ovf.","Todas las anteriores.","Fichero .ova.","Fichero .iso."],"c": 1},{"u": "T2: Virtualización","q": "62. Interconexión de VMs en un servidor:","o": ["Ninguna.","Configuración de red.","Por defecto.","Switch virtual."],"c": 3},{"u": "T2: Virtualización","q": "63. ¿Virtualizar redes diferentes en un host?","o": ["Switch físico.","No se puede.","Router físico.","Ninguna (Switch Virtual)."],"c": 3},{"u": "T2: Virtualización","q": "64. Configuración para usar WiFi del host en la VM:","o": ["NAT.","Todas.","Bridge (Puente).","Ninguna."],"c": 2},{"u": "T2: Virtualización","q": "65. Fichero para migrar VM a otros entornos:","o": [".ovf.","Ninguna.",".ova.",".vmf."],"c": 2},{"u": "T2: Virtualización","q": "66. ¿Qué es un Snapshot?","o": ["Backup hardware.","Imagen del estado en un momento.","Backup apps.","Backup SO."],"c": 1},{"u": "T2: Virtualización","q": "67. Migración en caliente:","o": ["Desplegar OVA.","Recuperar backup.","Mover sin apagar.","Ninguna."],"c": 2},{"u": "T2: Virtualización","q": "68. VMotion es...","o": ["Mover VM entre hosts.","Crear la misma VM.","Ninguna.","Mover entorno."],"c": 0},{"u": "T2: Virtualización","q": "69. Fichero preconfigurado VirtualBox:","o": [".ova.","Ninguna.",".iso.",".vmf."],"c": 0},{"u": "T2: Virtualización","q": "70. ¿Virtualizar equipos de red (routers)?","o": ["Solo locales.","No.","Sí.","Solo remotos."],"c": 2},{"u": "T3: AD","q": "71. ¿Cuántas cuentas admin de dominio?","o": ["Una.","Ninguna (pueden ser varias).","Solo al instalar.","Todas."],"c": 1},{"u": "T3: AD","q": "72. ¿Afecta el organigrama al AD?","o": ["Depende del área.","No.","Solo IT.","Sí."],"c": 3},{"u": "T3: AD","q": "73. Hora distinta entre servidor y cliente:","o": ["Ninguna.","Nada.","No podrá acceder.","No es posible."],"c": 2},{"u": "T3: AD","q": "74. Ventaja del AD:","o": ["Todas las anteriores.","Control acceso.","Gestionar usuarios.","Gestionar máquinas."],"c": 0},{"u": "T3: AD","q": "75. Seguridad en AD:","o": ["IPs controladas.","Filtrar MACs.","Ninguna.","Política contraseñas."],"c": 3},{"u": "T3: AD","q": "76. Servidor necesario con AD:","o": ["WEB.","DHCP.","DNS.","Ninguno."],"c": 2},{"u": "T3: AD","q": "77. Parámetro obligado en AD:","o": ["DNS IP.","Propia IP.","Password Admin.","Todas."],"c": 3},{"u": "T3: AD","q": "78. Relación Usuarios-AD:","o": ["Permisos grupos.","Permisos usuarios.","Unidades red.","Todas."],"c": 3},{"u": "T3: AD","q": "79. ¿Otro servidor en la misma máquina AD?","o": ["Solo Windows.","Sí.","Solo Linux.","No."],"c": 1},{"u": "T3: AD","q": "80. Si el AD se apaga...","o": ["Entran un tiempo.","Entran poco.","Entran (Caché).","No entran."],"c": 2},{"u": "T4: Web","q": "81. Servidor conjunto con WEB:","o": ["DNS.","Base de Datos.","DHCP.","Ninguno."],"c": 1},{"u": "T4: Web","q": "82. IIS es...","o": ["Linux.","Windows.","Físico.","Virtual."],"c": 1},{"u": "T4: Web","q": "83. Seguridad Web:","o": ["HTTPS < HTTP.","HTTP < HTTPS.","HTTP > HTTPS.","Iguales."],"c": 1},{"u": "T4: Web","q": "84. Protocolo HTTP:","o": ["Sin SSL.","Puerto 80.","Todas.","No es seguro."],"c": 2},{"u": "T4: Web","q": "85. Protocolo HTTPS:","o": ["Puerto 445.","Puerto 80.","Puerto 443.","Ninguna."],"c": 2},{"u": "T4: Web","q": "86. Lampp es...","o": ["FrontEnd.","Instalación Web.","Todas (Linux, Apache, MySQL...).","Base de datos."],"c": 1},{"u": "T4: Web","q": "87. ¿Otro servidor con el Web?","o": ["Sí.","Solo Linux.","No.","Solo Windows."],"c": 0},{"u": "T4: Web","q": "88. Para HTTPS necesitas...","o": ["Linux.","Apache.","Todas.","Certificado SSL."],"c": 3},{"u": "T4: Web","q": "89. Servidor Apache:","o": ["Windows.","Linux o Windows.","Ninguna.","Linux."],"c": 1},{"u": "T4: Web","q": "90. Ataque Phishing:","o": ["Todas.","Clonar web.","Robar credenciales.","Falsificar links."],"c": 0},{"u": "T5: Ficheros","q": "91. Acceso de varios a unidad red:","o": ["Permisos grupos.","Permisos usuario.","Permisos AD.","Todas."],"c": 0},{"u": "T5: Ficheros","q": "92. Tolerancia a fallos:","o": ["Backup.","Redundancia.","Todas.","RAID."],"c": 2},{"u": "T5: Ficheros","q": "93. Relación Ficheros-AD:","o": ["No.","Ninguna.","Control de acceso.","Particionamiento."],"c": 2},{"u": "T5: Ficheros","q": "94. ¿Afecta organigrama a Ficheros?","o": ["Sí.","No.","Depende.","Solo IT."],"c": 0},{"u": "T5: Ficheros","q": "95. ¿Coexistir dos servidores de ficheros?","o": ["Sí, almacenamiento compartido.","Todas.","Solo si VMs host.","Solo RAID."],"c": 0},{"u": "T5: Ficheros","q": "96. Relación Ficheros-Web:","o": ["No.","Acceso vía web.","No (máquinas distintas).","Ninguna."],"c": 1},{"u": "T5: Ficheros","q": "97. Puerto FTP:","o": ["Ninguna.","22.","23.","21."],"c": 3},{"u": "T5: Ficheros","q": "98. Puerto SCP:","o": ["23.","21.","22.","25."],"c": 2},{"u": "T5: Ficheros","q": "99. Protocolo más seguro:","o": ["TFTP.","Todas.","SCP.","FTP."],"c": 2},{"u": "T5: Ficheros","q": "100. Almacenamiento VM Ficheros:","o": ["Host físico.","Ninguna.","Mismo host VM.","Sistema independiente (SAN/NAS)."],"c": 3}]
+[
+  {
+    "u": "Servicios Windows",
+    "q": "1. El servicio que debo desplegar en un Windows Server para poder configurar e instalar un servidor de ficheros es...",
+    "o": [
+      "Ninguna de las respuestas es correcta.",
+      "File and Storage Services.",
+      "Files and network units Services.",
+      "Files and Folders Services."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Seguridad",
+    "q": "2. ¿Qué puerto se emplea para la comunicación y autenticación por SSH?",
+    "o": [
+      "23.",
+      "22.",
+      "33.",
+      "21."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Directorio Activo",
+    "q": "3. El método de control de acceso a red empleado por un servidor de directorio activo es...",
+    "o": [
+      "802.1X.",
+      "Kerberos.",
+      "LDAP.",
+      "Todas las respuestas son correctas."
+    ],
+    "c": 3
+  },
+  {
+    "u": "Virtualización",
+    "q": "4. ¿Qué extensión tiene el fichero que me permite desplegar una máquina preconfigurada en VirtualBox?",
+    "o": [
+      ".ofv.",
+      ".osa.",
+      ".ova.",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 2
+  },
+  {
+    "u": "Seguridad / Firewall",
+    "q": "5. Dada la siguiente regla de Firewall: 192.168.1.100 --- 190.146.2.200 --- FTP --- Deny",
+    "o": [
+      "La ip 190.146.2.200 no podrá acceder a la 192.168.1.100 por el puerto 21.",
+      "La ip 192.168.1.100 no podrá acceder a la 190.146.2.200 por el puerto 21.",
+      "La ip 192.168.1.100 podrá acceder por el puerto 21.",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Seguridad",
+    "q": "6. ¿Qué nombre recibe la parte de un exploit donde se define la acción del mismo?",
+    "o": [
+      "Payload.",
+      "Paintball.",
+      "Payball.",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Cultura IT",
+    "q": "7. Bill Gates sufrió un pantallazo azul en la presentación de...",
+    "o": [
+      "Windows 3.1.",
+      "Windows 98.",
+      "Ninguna de las respuestas es correcta.",
+      "Windows 95."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Radius / WiFi",
+    "q": "8. ¿Puede un servidor Radius controlar el acceso a la red de un sistema?",
+    "o": [
+      "Si, siempre que sea una red WiFi.",
+      "No, solo gestiona sistemas y clientes.",
+      "Si.",
+      "Todas las respuestas son correctas."
+    ],
+    "c": 2
+  },
+  {
+    "u": "Seguridad / Redes",
+    "q": "9. El anonimato en la DarkNet se pretende conseguir mediante...",
+    "o": [
+      "Una red de servidores Proxy.",
+      "Ninguna de las respuestas es correcta.",
+      "DHCP dinámicos.",
+      "Servidores DNS."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Redes / DNS",
+    "q": "10. Un servidor DNS relaciona...",
+    "o": [
+      "Nombres con direcciones IP.",
+      "Direcciones IP con MAC.",
+      "Direcciones IP con usuarios.",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Malware",
+    "q": "11. Un virus con una 'reverse shell' pretende...",
+    "o": [
+      "Una denegación de servicio.",
+      "Ninguna de las respuestas es correcta.",
+      "La obtención de credenciales.",
+      "El control remoto de la máquina."
+    ],
+    "c": 3
+  },
+  {
+    "u": "Seguridad",
+    "q": "12. Un ataque de tipo Phishing consiste en...",
+    "o": [
+      "Una denegación de servicio.",
+      "Ninguna de las respuestas es correcta.",
+      "Clonar una web y enviar un link malicioso.",
+      "Modificación de las solicitudes DNS."
+    ],
+    "c": 2
+  },
+  {
+    "u": "Radius",
+    "q": "13. La contraseña compartida Radius-Cliente se configura en...",
+    "o": [
+      "El servidor LDAP.",
+      "Cliente y servidor LDAP.",
+      "Solo en el cliente.",
+      "Ninguna es correcta (se configura en Cliente RADIUS y Servidor NPS)."
+    ],
+    "c": 3
+  },
+  {
+    "u": "Virtualización",
+    "q": "14. Con 16GB de RAM, ¿Cuántas máquinas virtuales puedo tener configuradas en VirtualBox?",
+    "o": [
+      "1.",
+      "Ninguna de las respuestas es correcta.",
+      "Todas las que necesite (siempre que no se enciendan todas a la vez).",
+      "4."
+    ],
+    "c": 2
+  },
+  {
+    "u": "Web / Seguridad",
+    "q": "15. Un ataque XSS consiste en...",
+    "o": [
+      "Cifrado de ficheros (Ransomware).",
+      "Ninguna de las respuestas es correcta.",
+      "Modificación de formularios.",
+      "Inyección de código malicioso en áreas de texto."
+    ],
+    "c": 3
+  },
+  {
+    "u": "Firewall",
+    "q": "16. Es una técnica para evadir firewalls:",
+    "o": [
+      "Tunneling.",
+      "Ninguna de las respuestas es correcta.",
+      "VPN.",
+      "Ofuscación."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Firewall",
+    "q": "17. Dada la siguiente regla de Firewall: 192.168.1.100 --- 190.146.2.200 --- HTTP --- Deny",
+    "o": [
+      "La ip 192.168.1.100 podrá acceder a la 190.146.2.200 por el puerto 443.",
+      "La ip 190.146.2.200 no podrá acceder a la 192.168.1.100 por el puerto 443.",
+      "La ip 192.168.1.100 no podrá acceder a la 190.146.2.200 por el puerto 443.",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Radius",
+    "q": "18. ¿Qué política es la recomendada actualmente en un servidor Radius?",
+    "o": [
+      "Permisiva.",
+      "Todas las respuestas son correctas.",
+      "Restrictiva.",
+      "Cualquiera de las anteriores."
+    ],
+    "c": 2
+  },
+  {
+    "u": "Directorio Activo",
+    "q": "19. A nivel de seguridad un Directorio Activo me permite...",
+    "o": [
+      "Obligar a los usuarios a cumplir una política de contraseñas.",
+      "Asignar direcciones IP controladas.",
+      "Ninguna de las respuestas es correcta.",
+      "Filtrar por direcciones MAC."
+    ],
+    "c": 0
+  },
+  {
+    "u": "WiFi / LDAP",
+    "q": "20. La autenticación WiFi corporativa se realizará mediante...",
+    "o": [
+      "Consulta a una base de datos web.",
+      "Base de datos local.",
+      "Ninguna de las respuestas es correcta.",
+      "Consulta a un servidor LDAP."
+    ],
+    "c": 3
+  },
+  {
+    "u": "Directorio Activo",
+    "q": "21. ¿Puede un usuario pertenecer a varios grupos en AD?",
+    "o": [
+      "Solo si es administrador.",
+      "Ninguna de las respuestas es correcta.",
+      "Sí, cualquier usuario.",
+      "No, solo puede pertenecer a un grupo."
+    ],
+    "c": 2
+  },
+  {
+    "u": "Radius / WiFi",
+    "q": "22. En una red WiFi sin controlador y con Radius, ¿Qué clientes configuro en el servidor Radius?",
+    "o": [
+      "Todos los APs de la red.",
+      "Direcciones IP de los APs y el controlador.",
+      "La dirección de red completa.",
+      "La IP del controlador."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Servidores Web",
+    "q": "23. Si tengo un servidor Apache...",
+    "o": [
+      "Ninguna de las respuestas es correcta.",
+      "Puede estar instalado tanto en Windows como en Linux.",
+      "Es un sistema que solo se puede instalar en Windows.",
+      "Es un sistema que solo se puede instalar en Linux."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Directorio Activo",
+    "q": "24. Para poder asociar un cliente al dominio es necesario...",
+    "o": [
+      "Estar en la misma red física.",
+      "Ninguna de las respuestas es correcta.",
+      "Poder hacerse Ping entre ambos.",
+      "Tener el mismo Sistema Operativo."
+    ],
+    "c": 2
+  },
+  {
+    "u": "Virtualización",
+    "q": "25. La comunicación entre dos máquinas virtuales en el mismo host se realiza...",
+    "o": [
+      "Ninguna de las respuestas es correcta.",
+      "Mediante un Switch virtual.",
+      "Depende de la configuración IP.",
+      "Mediante la tarjeta física."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Radius",
+    "q": "26. ¿Puede un servidor Radius gestionar el acceso a otros servidores?",
+    "o": [
+      "Sí, incluso se puede gestionar el nivel de acceso.",
+      "No, los servidores requieren cuentas locales.",
+      "No, es solo para clientes finales.",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Virtualización",
+    "q": "27. ¿Qué modo de red debo emplear para que host y VMs estén en la misma LAN y tengan internet?",
+    "o": [
+      "Solo-Anfitrión.",
+      "Adaptador Puente (Bridge).",
+      "NAT.",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Radius",
+    "q": "28. El control de acceso en un servidor Radius Windows se realiza en...",
+    "o": [
+      "Configuración de clientes RADIUS.",
+      "Políticas de solicitud de conexión.",
+      "Políticas de red (Acceso).",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 2
+  },
+  {
+    "u": "DNS / AD",
+    "q": "29. ¿Por qué es necesario un servidor DNS en un Directorio Activo?",
+    "o": [
+      "Para asociar clientes al dominio.",
+      "Por el nombre del dominio.",
+      "Todas las respuestas son correctas.",
+      "Por la dirección IP del servidor."
+    ],
+    "c": 2
+  },
+  {
+    "u": "Seguridad",
+    "q": "30. Un ataque Pharming consiste en...",
+    "o": [
+      "Clonar una web y enviar un link malicioso.",
+      "Modificación en las solicitudes DNS.",
+      "Una denegación de servicio.",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Ficheros",
+    "q": "31. ¿Cuál es el puerto predeterminado para SFTP?",
+    "o": [
+      "21.",
+      "Ninguna de las respuestas es correcta.",
+      "22.",
+      "23."
+    ],
+    "c": 2
+  },
+  {
+    "u": "Malware",
+    "q": "32. Un virus de tipo gusano busca...",
+    "o": [
+      "Propagarse a otros sistemas (Ninguna de las respuestas es correcta).",
+      "La obtención de credenciales.",
+      "Una denegación de servicio.",
+      "El control remoto de la máquina."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Almacenamiento",
+    "q": "33. En una virtualización con 2 hosts, ¿Cuántos storages compartidos mínimo necesito?",
+    "o": [
+      "2 en clúster.",
+      "Solo 1.",
+      "Ninguna de las respuestas es correcta.",
+      "2, uno para cada host."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Firewall",
+    "q": "34. ¿Qué política es la recomendada hoy en día en un Firewall?",
+    "o": [
+      "Restrictiva.",
+      "Todas las respuestas son correctas.",
+      "Permisiva.",
+      "Mixta."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Virtualización",
+    "q": "35. ¿Puedo virtualizar máquinas de redes diferentes en un mismo host?",
+    "o": [
+      "Sí, mediante un switch físico.",
+      "Sí, mediante un router físico.",
+      "Ninguna de las respuestas es correcta.",
+      "Sí, mediante un switch virtual."
+    ],
+    "c": 3
+  },
+  {
+    "u": "Virtualización",
+    "q": "36. En un host con 16GB RAM, ¿Cuántas VMs de 4GB puedo tener corriendo a la vez?",
+    "o": [
+      "Todas las que quiera.",
+      "Ninguna de las respuestas es correcta (depende del consumo del SO host).",
+      "4.",
+      "1."
+    ],
+    "c": 1
+  },
+  {
+    "u": "DHCP",
+    "q": "37. Un servidor DHCP...",
+    "o": [
+      "Asigna direcciones IP dinámicamente.",
+      "Traduce nombres de dominio.",
+      "Autentica usuarios en la red.",
+      "Todas las respuestas son correctas."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Radius",
+    "q": "38. En un servidor Radius se pueden crear políticas por...",
+    "o": [
+      "Dirección MAC.",
+      "Todas las respuestas son correctas.",
+      "Usuario.",
+      "Dirección IP."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Radius / WiFi",
+    "q": "39. El método de autenticación WiFi corporativo empleado en Radius es...",
+    "o": [
+      "PEAP.",
+      "EAP.",
+      "Ninguna de las respuestas es correcta.",
+      "PAP."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Radius Linux",
+    "q": "40. Un problema común de Radius en Linux es...",
+    "o": [
+      "Falsos negativos.",
+      "La complejidad de su configuración.",
+      "Ninguna de las respuestas es correcta.",
+      "Falsos positivos."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Firewall",
+    "q": "41. El orden de evaluación de las reglas en un Firewall es...",
+    "o": [
+      "La más permisiva primero.",
+      "Secuencial (de arriba a abajo).",
+      "La menos restrictiva.",
+      "La más restrictiva."
+    ],
+    "c": 1
+  },
+  {
+    "u": "Firewall",
+    "q": "42. Dada la siguiente regla: 192.168.1.100 --- 192.168.1.50 --- 80 --- Allow",
+    "o": [
+      "Ninguna de las respuestas es correcta.",
+      "La ip 50 puede acceder a la 100 por HTTP.",
+      "La ip 100 puede acceder a la 50 por HTTPS.",
+      "La ip 50 puede acceder a la 100 por HTTPS."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Virtualización",
+    "q": "43. La acción de mover una VM de un host a otro mientras está encendida se llama:",
+    "o": [
+      "VMotion.",
+      "BeHappy.",
+      "VMoving.",
+      "VTransfer."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Radius",
+    "q": "44. Un servidor Radius es un sistema de...",
+    "o": [
+      "Control de usuarios.",
+      "Acceso a la red.",
+      "Autenticación de dispositivos.",
+      "Todas las respuestas son correctas."
+    ],
+    "c": 3
+  },
+  {
+    "u": "Virtualización",
+    "q": "45. Ante un error de licencia en Windows Server sobre VirtualBox, debo...",
+    "o": [
+      "Reiniciar.",
+      "Ninguna de las respuestas es correcta.",
+      "Pasar a Modo Desktop.",
+      "Desconectar la ISO del DVD virtual."
+    ],
+    "c": 3
+  },
+  {
+    "u": "Malware",
+    "q": "46. Un virus de tipo troyano busca...",
+    "o": [
+      "Una denegación de servicio.",
+      "La obtención de credenciales.",
+      "Ninguna de las respuestas es correcta.",
+      "El control remoto de la máquina."
+    ],
+    "c": 3
+  },
+  {
+    "u": "Web",
+    "q": "47. ¿Cuál es el puerto para SSL (HTTPS)?",
+    "o": [
+      "Ninguna de las respuestas es correcta.",
+      "80.",
+      "22.",
+      "443."
+    ],
+    "c": 3
+  },
+  {
+    "u": "Directorio Activo",
+    "q": "48. Si no hay conexión al AD, la primera opción para entrar es...",
+    "o": [
+      "Cuenta de Administrador Local.",
+      "Desconectar el cable de red.",
+      "Usar un Modo Live.",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 0
+  },
+  {
+    "u": "DHCP",
+    "q": "49. El tiempo de concesión de una dirección IP se denomina:",
+    "o": [
+      "Lease Time.",
+      "Less Time.",
+      "TTL.",
+      "Ninguna de las respuestas es correcta."
+    ],
+    "c": 0
+  },
+  {
+    "u": "Directorio Activo",
+    "q": "50. ¿Se puede crear un grupo con un único usuario en AD?",
+    "o": [
+      "No, mínimo deben ser dos.",
+      "Sí.",
+      "Ninguna de las respuestas es correcta.",
+      "Solo si el administrador está presente."
+    ],
+    "c": 1
+  }
+]
