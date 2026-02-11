@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UAX - Administración de Sistemas PRO</title>
+    <title>UAX - Administraci��n de Sistemas PRO</title>
     <style>
         :root {
             --primary: #2563eb;
@@ -27,6 +27,25 @@
             min-height: 100vh;
         }
 
+        #selector-screen {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .select-card {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+
         .header {
             position: sticky; top: 0;
             background: var(--card);
@@ -35,6 +54,7 @@
             border-bottom: 2px solid #e2e8f0;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             z-index: 1000;
+            display: none;
         }
 
         .stats-grid {
@@ -61,17 +81,21 @@
 
         .btn {
             flex: 1; background: var(--primary); color: white; border: none;
-            padding: 10px; border-radius: 8px; font-weight: 600;
+            padding: 12px; border-radius: 8px; font-weight: 600;
             cursor: pointer; font-size: 0.85rem; transition: all 0.2s;
             display: flex; align-items: center; justify-content: center; gap: 6px;
+            margin-bottom: 10px; width: 100%;
         }
 
         .btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
         .btn-secondary { background: #64748b; }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .btn-outline:hover { background: #eff6ff; color: var(--primary-dark); }
 
         .quiz-container { 
             width: 100%; max-width: 800px; 
             padding: 20px 15px;
+            display: none;
         }
 
         .q-card {
@@ -106,285 +130,4 @@
         .disabled { cursor: default; pointer-events: none; }
         
         .correct { background: #dcfce7 !important; border-color: var(--success) !important; color: #166534; font-weight: 600; }
-        .wrong { background: #fee2e2 !important; border-color: var(--error) !important; color: #991b1b; }
-
-        .overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px); z-index: 2000;
-        }
-
-        #results-modal {
-            display: none; position: fixed; top: 50%; left: 50%;
-            transform: translate(-50%, -50%); background: white;
-            padding: 35px; border-radius: 24px; text-align: center;
-            z-index: 2001; width: 90%; max-width: 450px;
-        }
-
-        .score-box { font-size: 3.5rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
-
-        @media (max-width: 600px) {
-            .stat-val { font-size: 1.1rem; }
-            .btn { font-size: 0.7rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="header">
-        <div class="stats-grid">
-            <div class="stat"><span class="stat-val" id="hits">0</span><span class="stat-label">Aciertos</span></div>
-            <div class="stat"><span class="stat-val" id="fails">0</span><span class="stat-label">Fallos</span></div>
-            <div class="stat"><span class="stat-val" id="current-stat">0/0</span><span class="stat-label">Progreso</span></div>
-        </div>
-        <div class="progress-container">
-            <div class="progress-bar" id="p-bar"></div>
-        </div>
-        <div class="controls">
-            <button class="btn" onclick="app.init(true)">🎲 Mezclar Todo</button>
-            <button class="btn btn-secondary" onclick="app.init(false)">📋 Orden Original</button>
-            <button class="btn btn-secondary" id="btn-retry-fails" onclick="app.retryFails()" style="display:none; background: #059669">🔥 Solo Fallos</button>
-        </div>
-    </div>
-
-    <div class="quiz-container" id="quiz-box"></div>
-
-    <div class="overlay" id="overlay" onclick="app.closeModal()"></div>
-    <div id="results-modal">
-        <div class="score-box" id="final-grade">0.0</div>
-        <h2 id="result-title">Test Completado</h2>
-        <p id="final-stats-text"></p>
-        <button class="btn" style="width:100%; margin-bottom:10px" onclick="app.closeModal()">🔍 Revisar Respuestas</button>
-        <button class="btn btn-secondary" style="width:100%" onclick="app.init(true); app.closeModal();">🆕 Reiniciar</button>
-    </div>
-
-    <script>
-        // BANCO DE DATOS INTEGRADO (Para asegurar que el Preview funcione siempre)
-        const QUESTIONS = [
-            {u:"Servicios Windows", q:"1. El servicio que debo desplegar en Windows para instalar un servidor de ficheros es...", o:["Ninguna es correcta.", "File and Storage Services.", "Files and network units Services.", "Files and Folders Services."], c:1},
-            {u:"Seguridad", q:"2. ¿Qué puerto se emplea para la autenticación por SSH?", o:["23.", "22.", "33.", "21."], c:1},
-            {u:"Directorio Activo", q:"3. El método de control de acceso a red empleado por un servidor de directorio activo es...", o:["802.1X.", "Kerberos.", "LDAP.", "Todas las respuestas son correctas."], c:3},
-            {u:"Virtualización", q:"4. ¿Qué extensión tiene el fichero que me permite desplegar una máquina preconfigurada en VirtualBox?", o:[".ofv.", ".osa.", ".ova.", "Ninguna de las respuestas es correcta."], c:2},
-            {u:"Seguridad / Firewall", q:"5. Regla Firewall: 192.168.1.100 --- 190.146.2.200 --- FTP --- Deny", o:["La ip 190.146.2.200 no accede a la 192.168.1.100 por puerto 21.", "La ip 192.168.1.100 no accede a la 190.146.2.200 por puerto 21.", "La ip 192.168.1.100 podrá acceder por puerto 21.", "Ninguna es correcta."], c:1},
-            {u:"Seguridad", q:"6. ¿Qué nombre recibe la parte de un exploit donde se define la acción del mismo?", o:["Payload.", "Paintball.", "Payball.", "Ninguna es correcta."], c:0},
-            {u:"Cultura IT", q:"7. Bill Gates sufrió un pantallazo azul en la presentación de...", o:["Windows 3.1.", "Windows 98.", "Ninguna es correcta.", "Windows 95."], c:1},
-            {u:"Radius / WiFi", q:"8. ¿Puede un servidor Radius controlar el acceso a la red?", o:["Si, sólo si es WiFi.", "No, solo sistemas y clientes.", "Si.", "Todas son correctas."], c:2},
-            {u:"Seguridad / Redes", q:"9. El anonimato en la DarkNet se pretende conseguir mediante...", o:["Una red de servidores Proxy.", "Ninguna es correcta.", "DHCP dinámicos.", "Servidores DNS."], c:0},
-            {u:"Redes / DNS", q:"10. Un servidor DNS relaciona...", o:["Nombres con IPs.", "IPs con MACs.", "IPs con usuarios.", "Ninguna es correcta."], c:0},
-            {u:"Malware", q:"11. Un virus con una 'reverse shell' pretende...", o:["Denegación de servicio.", "Ninguna es correcta.", "Obtención de credenciales.", "El control remoto de la máquina."], c:3},
-            {u:"Seguridad", q:"12. Un ataque de tipo Phishing consiste en...", o:["Denegación de servicio.", "Ninguna es correcta.", "Clonar una web y enviar un link malicioso.", "Modificación DNS."], c:2},
-            {u:"Radius", q:"13. La contraseña compartida Radius-Cliente se configura en...", o:["El servidor LDAP.", "Cliente y servidor LDAP.", "Solo en el cliente.", "Ninguna es correcta (Cliente RADIUS y Servidor NPS)."], c:3},
-            {u:"Virtualización", q:"14. Con 16GB de RAM, ¿Cuántas máquinas puedo tener configuradas en VirtualBox?", o:["1.", "Ninguna es correcta.", "Todas las que necesite (configuradas, no encendidas).", "4."], c:2},
-            {u:"Web / Seguridad", q:"15. Un ataque XSS consiste en...", o:["Cifrado de ficheros (Ransomware).", "Ninguna es correcta.", "Modificación de formularios.", "Inyección de código malicioso en áreas de texto."], c:3},
-            {u:"Firewall", q:"16. Técnica para evadir firewalls:", o:["Tunneling.", "Ninguna es correcta.", "VPN.", "Ofuscación."], c:0},
-            {u:"Firewall", q:"17. Regla: 192.168.1.100 --- 190.146.2.200 --- HTTP --- Deny", o:["La 192.168.1.100 accede a la 190.146.2.200 por el 443.", "La 190.146.2.200 no accede a la 192.168.1.100 por el 443.", "La 192.168.1.100 no accede a la 190.146.2.200 por el 443.", "Ninguna es correcta."], c:0},
-            {u:"Radius", q:"18. Política actual recomendada en Radius:", o:["Permisiva.", "Todas son correctas.", "Restrictiva.", "Cualquiera."], c:2},
-            {u:"Directorio Activo", q:"19. A nivel de seguridad un Directorio Activo permite...", o:["Obligar a cumplir política de contraseñas.", "Asignar IPs controladas.", "Ninguna es correcta.", "Filtrar MACs."], c:0},
-            {u:"WiFi / LDAP", q:"20. La autenticación WiFi corporativa se realizará...", o:["Consulta a BD web.", "Base de datos local.", "Ninguna es correcta.", "Consulta a servidor LDAP."], c:3},
-            {u:"Directorio Activo", q:"21. ¿Puede un usuario pertenecer a varios grupos en AD?", o:["Solo si es administrador.", "Ninguna es correcta.", "Sí, cualquier usuario.", "No, solo a uno."], c:2},
-            {u:"Radius / WiFi", q:"22. En WiFi sin controlador con Radius, ¿Qué clientes configuro en el Radius?", o:["Todos los APs de la red.", "IPs de APs y controlador.", "La dirección de red completa.", "La IP del controlador."], c:0},
-            {u:"Servidores Web", q:"23. Si tengo un servidor Apache...", o:["Ninguna es correcta.", "Puede ser Windows o Linux.", "Es solo Windows.", "Es solo Linux."], c:1},
-            {u:"Directorio Activo", q:"24. Para asociar un cliente al dominio es necesario...", o:["Estar en la misma red.", "Ninguna es correcta.", "Poder hacerse Ping entre ambos.", "Mismo Sistema Operativo."], c:2},
-            {u:"Virtualización", q:"25. La comunicación entre dos VMs en el mismo host se realiza...", o:["Ninguna es correcta.", "Mediante un Switch virtual.", "Depende de la IP.", "Mediante la tarjeta física."], c:1},
-            {u:"Radius", q:"26. ¿Puede un Radius gestionar el acceso a otros servidores?", o:["Sí, incluso el nivel de acceso.", "No, requieren cuentas locales.", "No, es solo para clientes.", "Ninguna es correcta."], c:0},
-            {u:"Virtualización", q:"27. Modo de red para que host y VMs estén en la misma LAN e internet:", o:["Anfitrión.", "Bridge (Puente).", "NAT.", "Ninguna es correcta."], c:1},
-            {u:"Radius", q:"28. El control de acceso en Radius Windows se realiza en...", o:["Configuración de clientes.", "Políticas de conexión.", "Políticas de acceso.", "Ninguna es correcta."], c:2},
-            {u:"DNS / AD", q:"29. ¿Por qué es necesario DNS en un Directorio Activo?", o:["Para asociar clientes al dominio.", "Por el nombre del dominio.", "Todas son correctas.", "Por la IP del servidor."], c:2},
-            {u:"Seguridad", q:"30. Un ataque Pharming consiste en...", o:["Clonar web y enviar link.", "Modificación en las solicitudes DNS.", "Denegación de servicio.", "Ninguna es correcta."], c:1},
-            {u:"Ficheros", q:"31. Puerto predeterminado SFTP:", o:["21.", "Ninguna es correcta.", "22.", "23."], c:2},
-            {u:"Malware", q:"32. Un virus tipo gusano busca...", o:["Propagarse (Ninguna es correcta).", "Credenciales.", "Denegación de servicio.", "Control remoto."], c:0},
-            {u:"Almacenamiento", q:"33. Virtualización con 2 hosts, ¿Cuántos storages compartidos mínimo?", o:["2 en clúster.", "Solo 1.", "Ninguna es correcta.", "2, uno por host."], c:1},
-            {u:"Firewall", q:"34. Política recomendada hoy en Firewall:", o:["Restrictiva.", "Todas son correctas.", "Permisiva.", "Mixta."], c:0},
-            {u:"Virtualización", q:"35. ¿Puedo virtualizar máquinas de redes diferentes en un host?", o:["Sí, con switch físico.", "Sí, con router físico.", "Ninguna es correcta.", "Sí, con switch virtual."], c:3},
-            {u:"Virtualización", q:"36. Host 16GB RAM, ¿Cuántas VMs de 4GB corriendo a la vez?", o:["Todas las que quiera.", "Ninguna es correcta (depende del SO host).", "4.", "1."], c:1},
-            {u:"DHCP", q:"37. Un servidor DHCP...", o:["Asigna IPs dinámicamente.", "Traduce nombres.", "Autentica usuarios.", "Todas son correctas."], c:0},
-            {u:"Radius", q:"38. En Radius se crean políticas por...", o:["MAC.", "Todas son correctas.", "Usuario.", "IP."], c:1},
-            {u:"Radius / WiFi", q:"39. Método de autenticación WiFi corporativo en Radius:", o:["PEAP.", "EAP.", "Ninguna es correcta.", "PAP."], c:0},
-            {u:"Radius Linux", q:"40. Problema común de Radius en Linux:", o:["Falsos negativos.", "Complejidad de configuración.", "Ninguna es correcta.", "Falsos positivos."], c:1},
-            {u:"Firewall", q:"41. Evaluación de reglas en Firewall:", o:["La más permisiva.", "Secuencial (de arriba a abajo).", "La menos restrictiva.", "La más restrictiva."], c:1},
-            {u:"Firewall", q:"42. Regla: 192.168.1.100 --- 192.168.1.50 --- 80 --- Allow", o:["Ninguna es correcta.", "La 50 accede a la 100 por HTTP.", "La 100 accede a la 50 por HTTPS.", "La 50 accede a la 100 por HTTPS."], c:0},
-            {u:"Virtualización", q:"43. Mover una VM de un host a otro encendida:", o:["VMotion.", "BeHappy.", "VMoving.", "VTransfer."], c:0},
-            {u:"Radius", q:"44. Un servidor Radius es un sistema de...", o:["Control de usuarios.", "Acceso a red.", "Autenticación dispositivos.", "Todas son correctas."], c:3},
-            {u:"Virtualización", q:"45. Error de licencia Windows Server en VirtualBox:", o:["Reiniciar.", "Ninguna es correcta.", "Modo Desktop.", "Desconectar ISO del DVD virtual."], c:3},
-            {u:"Malware", q:"46. Un troyano busca...", o:["Denegación de servicio.", "Credenciales.", "Ninguna es correcta.", "Control remoto."], c:3},
-            {u:"Web", q:"47. Puerto SSL (HTTPS):", o:["Ninguna es correcta.", "80.", "22.", "443."], c:3},
-            {u:"Directorio Activo", q:"48. Sin conexión al AD, primera opción para entrar:", o:["Cuenta Administrador Local.", "Desconectar red.", "Modo Live.", "Ninguna es correcta."], c:0},
-            {u:"DHCP", q:"49. Tiempo de concesión de IP:", o:["Lease Time.", "Less Time.", "TTL.", "Ninguna es correcta."], c:0},
-            {u:"Directorio Activo", q:"50. ¿Grupo con un único usuario en AD?", o:["No, mínimo dos.", "Sí.", "Ninguna es correcta.", "Solo si el admin está."], c:1},
-            {u:"T1: Sistemas", q:"51. SO que ejecuta dos programas a la vez:", o:["Multiusuario.", "Monotarea.", "Monousuario.", "Ninguna (Multitarea)."], c:3},
-            {u:"T1: Sistemas", q:"52. La línea de comandos en Windows es...", o:["Una shell.", "Sistema MSDOS.", "Acceso al kernel.", "Ninguna."], c:0},
-            {u:"T1: Sistemas", q:"53. Bill Gates falló con pantalla azul en...", o:["Windows 98.", "Windows 95.", "Ninguna.", "Windows 3.1."], c:0},
-            {u:"T1: Sistemas", q:"54. Primer intento de Multitarea:", o:["Ninguna.", "Windows 98.", "Windows 95.", "Windows 3.1."], c:3},
-            {u:"T1: Sistemas", q:"55. El sistema DOS era...", o:["Ninguna.", "Multitarea.", "Monousuario.", "Multiusuario."], c:2},
-            {u:"T1: Sistemas", q:"56. Ejecución de tareas consecutivas:", o:["Multiusuario.", "Multitarea.", "Monousuario.", "Ninguna."], c:3},
-            {u:"T1: Sistemas", q:"57. Multitarea realmente operativo en...", o:["Windows 95.", "Windows 3.1.", "Windows 98.", "Ninguna."], c:0},
-            {u:"T1: Sistemas", q:"58. SO que permite varios usuarios:", o:["Multiusuario.", "Depende de tareas.", "Ninguna.", "Puede ser Monousuario (solo 1 activo)."], c:0},
-            {u:"T1: Sistemas", q:"59. Un Smartphone es...", o:["Multiusuario.", "Multitarea.", "Todas.", "Ninguna."], c:1},
-            {u:"T1: Sistemas", q:"60. Una tablet es...", o:["Todas.", "Multitarea.", "Ninguna.", "Multiusuario."], c:1},
-            {u:"T2: Virtualización", q:"61. Desplegar VM en VirtualBox con...", o:["Fichero .ovf.", "Todas las anteriores.", "Fichero .ova.", "Fichero .iso."], c:1},
-            {u:"T2: Virtualización", q:"62. Interconexión de VMs en un servidor:", o:["Ninguna.", "Configuración de red.", "Por defecto.", "Switch virtual."], c:3},
-            {u:"T2: Virtualización", q:"63. ¿Virtualizar redes diferentes en un host?", o:["Switch físico.", "No se puede.", "Router físico.", "Ninguna (Switch Virtual)."], c:3},
-            {u:"T2: Virtualización", q:"64. Configuración para usar WiFi del host en la VM:", o:["NAT.", "Todas.", "Bridge (Puente).", "Ninguna."], c:2},
-            {u:"T2: Virtualización", q:"65. Fichero para migrar VM a otros entornos:", o:[".ovf.", "Ninguna.", ".ova.", ".vmf."], c:2},
-            {u:"T2: Virtualización", q:"66. ¿Qué es un Snapshot?", o:["Backup hardware.", "Imagen del estado en un momento.", "Backup apps.", "Backup SO."], c:1},
-            {u:"T2: Virtualización", q:"67. Migración en caliente:", o:["Desplegar OVA.", "Recuperar backup.", "Mover sin apagar.", "Ninguna."], c:2},
-            {u:"T2: Virtualización", q:"68. VMotion es...", o:["Mover VM entre hosts.", "Crear la misma VM.", "Ninguna.", "Mover entorno."], c:0},
-            {u:"T2: Virtualización", q:"69. Fichero preconfigurado VirtualBox:", o:[".ova.", "Ninguna.", ".iso.", ".vmf."], c:0},
-            {u:"T2: Virtualización", q:"70. ¿Virtualizar equipos de red (routers)?", o:["Solo locales.", "No.", "Sí.", "Solo remotos."], c:2},
-            {u:"T3: AD", q:"71. ¿Cuántas cuentas admin de dominio?", o:["Una.", "Ninguna (pueden ser varias).", "Solo al instalar.", "Todas."], c:1},
-            {u:"T3: AD", q:"72. ¿Afecta el organigrama al AD?", o:["Depende del área.", "No.", "Solo IT.", "Sí."], c:3},
-            {u:"T3: AD", q:"73. Hora distinta entre servidor y cliente:", o:["Ninguna.", "Nada.", "No podrá acceder.", "No es posible."], c:2},
-            {u:"T3: AD", q:"74. Ventaja del AD:", o:["Todas las anteriores.", "Control acceso.", "Gestionar usuarios.", "Gestionar máquinas."], c:0},
-            {u:"T3: AD", q:"75. Seguridad en AD:", o:["IPs controladas.", "Filtrar MACs.", "Ninguna.", "Política contraseñas."], c:3},
-            {u:"T3: AD", q:"76. Servidor necesario con AD:", o:["WEB.", "DHCP.", "DNS.", "Ninguno."], c:2},
-            {u:"T3: AD", q:"77. Parámetro obligado en AD:", o:["DNS IP.", "Propia IP.", "Password Admin.", "Todas."], c:3},
-            {u:"T3: AD", q:"78. Relación Usuarios-AD:", o:["Permisos grupos.", "Permisos usuarios.", "Unidades red.", "Todas."], c:3},
-            {u:"T3: AD", q:"79. ¿Otro servidor en la misma máquina AD?", o:["Solo Windows.", "Sí.", "Solo Linux.", "No."], c:1},
-            {u:"T3: AD", q:"80. Si el AD se apaga...", o:["Entran un tiempo.", "Entran poco.", "Entran (Caché).", "No entran."], c:2},
-            {u:"T4: Web", q:"81. Servidor conjunto con WEB:", o:["DNS.", "Base de Datos.", "DHCP.", "Ninguno."], c:1},
-            {u:"T4: Web", q:"82. IIS es...", o:["Linux.", "Windows.", "Físico.", "Virtual."], c:1},
-            {u:"T4: Web", q:"83. Seguridad Web:", o:["HTTPS < HTTP.", "HTTP < HTTPS.", "HTTP > HTTPS.", "Iguales."], c:1},
-            {u:"T4: Web", q:"84. Protocolo HTTP:", o:["Sin SSL.", "Puerto 80.", "Todas.", "No es seguro."], c:2},
-            {u:"T4: Web", q:"85. Protocolo HTTPS:", o:["Puerto 445.", "Puerto 80.", "Puerto 443.", "Ninguna."], c:2},
-            {u:"T4: Web", q:"86. Lampp es...", o:["FrontEnd.", "Instalación Web.", "Todas (Linux, Apache, MySQL...).", "Base de datos."], c:1},
-            {u:"T4: Web", q:"87. ¿Otro servidor con el Web?", o:["Sí.", "Solo Linux.", "No.", "Solo Windows."], c:0},
-            {u:"T4: Web", q:"88. Para HTTPS necesitas...", o:["Linux.", "Apache.", "Todas.", "Certificado SSL."], c:3},
-            {u:"T4: Web", q:"89. Servidor Apache:", o:["Windows.", "Linux o Windows.", "Ninguna.", "Linux."], c:1},
-            {u:"T4: Web", q:"90. Ataque Phishing:", o:["Todas.", "Clonar web.", "Robar credenciales.", "Falsificar links."], c:0},
-            {u:"T5: Ficheros", q:"91. Acceso de varios a unidad red:", o:["Permisos grupos.", "Permisos usuario.", "Permisos AD.", "Todas."], c:0},
-            {u:"T5: Ficheros", q:"92. Tolerancia a fallos:", o:["Backup.", "Redundancia.", "Todas.", "RAID."], c:2},
-            {u:"T5: Ficheros", q:"93. Relación Ficheros-AD:", o:["No.", "Ninguna.", "Control de acceso.", "Particionamiento."], c:2},
-            {u:"T5: Ficheros", q:"94. ¿Afecta organigrama a Ficheros?", o:["Sí.", "No.", "Depende.", "Solo IT."], c:0},
-            {u:"T5: Ficheros", q:"95. ¿Coexistir dos servidores de ficheros?", o:["Sí, almacenamiento compartido.", "Todas.", "Solo si VMs host.", "Solo RAID."], c:0},
-            {u:"T5: Ficheros", q:"96. Relación Ficheros-Web:", o:["No.", "Acceso vía web.", "No (máquinas distintas).", "Ninguna."], c:1},
-            {u:"T5: Ficheros", q:"97. Puerto FTP:", o:["Ninguna.", "22.", "23.", "21."], c:3},
-            {u:"T5: Ficheros", q:"98. Puerto SCP:", o:["23.", "21.", "22.", "25."], c:2},
-            {u:"T5: Ficheros", q:"99. Protocolo más seguro:", o:["TFTP.", "Todas.", "SCP.", "FTP."], c:2},
-            {u:"T5: Ficheros", q:"100. Almacenamiento VM Ficheros:", o:["Host físico.", "Ninguna.", "Mismo host VM.", "Sistema independiente (SAN/NAS)."], c:3}
-        ];
-
-        const app = {
-            activeQuestions: [],
-            hits: 0,
-            fails: 0,
-            done: 0,
-            failedObjects: [],
-            renderedCount: 0,
-            batchSize: 10,
-
-            init(shouldShuffle = true, subset = null) {
-                this.activeQuestions = subset || JSON.parse(JSON.stringify(QUESTIONS));
-                if (shouldShuffle) this.shuffle(this.activeQuestions);
-
-                this.hits = 0;
-                this.fails = 0;
-                this.done = 0;
-                this.renderedCount = 0;
-                this.failedObjects = [];
-                
-                document.getElementById('quiz-box').innerHTML = '';
-                document.getElementById('btn-retry-fails').style.display = 'none';
-                this.updateUI();
-                this.renderNextBatch();
-                window.scrollTo(0, 0);
-            },
-
-            shuffle(arr) {
-                for (let i = arr.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [arr[i], arr[j]] = [arr[j], arr[i]];
-                }
-            },
-
-            renderNextBatch() {
-                const box = document.getElementById('quiz-box');
-                const start = this.renderedCount;
-                const end = Math.min(start + this.batchSize, this.activeQuestions.length);
-
-                for (let i = start; i < end; i++) {
-                    const data = this.activeQuestions[i];
-                    const card = document.createElement('div');
-                    card.className = 'q-card';
-                    card.id = `card-${i}`;
-                    card.innerHTML = `
-                        <span class="theme-badge">${data.u}</span>
-                        <div class="question-text">${data.q}</div>
-                        <div class="options-grid" id="opt-container-${i}">
-                            ${data.o.map((opt, oi) => `
-                                <div class="option" onclick="app.check(${i}, ${oi})">${opt}</div>
-                            `).join('')}
-                        </div>
-                    `;
-                    box.appendChild(card);
-                }
-                this.renderedCount = end;
-            },
-
-            check(qi, oi) {
-                const container = document.getElementById(`opt-container-${qi}`);
-                if (container.classList.contains('disabled')) return;
-
-                const options = container.querySelectorAll('.option');
-                const correctIdx = this.activeQuestions[qi].c;
-
-                if (oi === correctIdx) {
-                    options[oi].classList.add('correct');
-                    this.hits++;
-                } else {
-                    options[oi].classList.add('wrong');
-                    options[correctIdx].classList.add('correct');
-                    this.fails++;
-                    this.failedObjects.push(this.activeQuestions[qi]);
-                }
-
-                this.done++;
-                container.classList.add('disabled');
-                this.updateUI();
-
-                if (qi >= this.renderedCount - 3 && this.renderedCount < this.activeQuestions.length) {
-                    this.renderNextBatch();
-                }
-
-                setTimeout(() => {
-                    const next = document.getElementById(`card-${qi + 1}`);
-                    if (next) {
-                        const offset = 120;
-                        const pos = next.getBoundingClientRect().top + window.pageYOffset - offset;
-                        window.scrollTo({ top: pos, behavior: 'smooth' });
-                    }
-                }, 500);
-
-                if (this.done === this.activeQuestions.length) this.finish();
-            },
-
-            updateUI() {
-                document.getElementById('hits').innerText = this.hits;
-                document.getElementById('fails').innerText = this.fails;
-                document.getElementById('current-stat').innerText = `${this.done}/${this.activeQuestions.length}`;
-                const progress = (this.done / this.activeQuestions.length) * 100;
-                document.getElementById('p-bar').style.width = `${progress}%`;
-            },
-
-            retryFails() {
-                this.init(true, [...this.failedObjects]);
-            },
-
-            finish() {
-                const grade = ((this.hits / this.activeQuestions.length) * 10).toFixed(1);
-                document.getElementById('final-grade').innerText = grade;
-                document.getElementById('result-title').innerText = grade >= 5 ? "🎉 ¡Aprobado!" : "❌ No apto";
-                document.getElementById('final-stats-text').innerText = `Has acertado ${this.hits} de ${this.activeQuestions.length}.`;
-                if (this.failedObjects.length > 0) document.getElementById('btn-retry-fails').style.display = 'flex';
-                document.getElementById('overlay').style.display = 'block';
-                document.getElementById('results-modal').style.display = 'block';
-            },
-
-            closeModal() {
-                document.getElementById('overlay').style.display = 'none';
-                document.getElementById('results-modal').style.display = 'none';
-            }
-        };
-
-        window.onload = () => app.init(false);
-    </script>
-</body>
-</html>
+        .wrong { background: #fee2e2 !important; border-color: var(--error) !
