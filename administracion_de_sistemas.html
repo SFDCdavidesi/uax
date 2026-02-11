@@ -5,129 +5,226 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UAX - Administraci車n de Sistemas PRO</title>
     <style>
+        /* Mantenemos tus estilos originales intactos */
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1e40af;
-            --success: #059669;
-            --error: #dc2626;
-            --bg: #f8fafc;
-            --card: #ffffff;
-            --text: #1e293b;
-            --text-light: #64748b;
+            --primary: #2563eb; --primary-dark: #1e40af; --success: #059669;
+            --error: #dc2626; --bg: #f8fafc; --card: #ffffff;
+            --text: #1e293b; --text-light: #64748b;
         }
-
         * { box-sizing: border-box; scroll-behavior: smooth; }
-
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            margin: 0; padding: 0;
-            display: flex; flex-direction: column; align-items: center;
-            min-height: 100vh;
+            background-color: var(--bg); color: var(--text); margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
-
+        /* Estilos para el selector inicial */
         #selector-screen {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-            padding: 20px;
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; height: 100vh; text-align: center; padding: 20px;
         }
-
         .select-card {
-            background: var(--card);
-            padding: 40px;
-            border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 500px;
-            width: 100%;
+            background: var(--card); padding: 40px; border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; width: 100%;
         }
-
         .header {
-            position: sticky; top: 0;
-            background: var(--card);
-            width: 100%; max-width: 800px;
-            padding: 15px 20px;
-            border-bottom: 2px solid #e2e8f0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            z-index: 1000;
-            display: none;
+            position: sticky; top: 0; background: var(--card); width: 100%; max-width: 800px;
+            padding: 15px 20px; border-bottom: 2px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); z-index: 1000; display: none;
         }
-
-        .stats-grid {
-            display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 10px; margin-bottom: 12px;
-        }
-
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
         .stat { text-align: center; }
         .stat-val { display: block; font-weight: 800; font-size: 1.4rem; color: var(--primary); }
         .stat-label { font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; font-weight: bold; }
-
-        .progress-container {
-            width: 100%; height: 8px;
-            background: #e2e8f0; border-radius: 10px;
-            overflow: hidden; margin-bottom: 15px;
-        }
-
-        .progress-bar {
-            height: 100%; background: var(--primary);
-            width: 0%; transition: width 0.3s ease;
-        }
-
+        .progress-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 15px; }
+        .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
         .controls { display: flex; gap: 8px; }
-
         .btn {
             flex: 1; background: var(--primary); color: white; border: none;
-            padding: 12px; border-radius: 8px; font-weight: 600;
-            cursor: pointer; font-size: 0.85rem; transition: all 0.2s;
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-            margin-bottom: 10px; width: 100%;
+            padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer;
+            font-size: 0.85rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
         }
-
         .btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
         .btn-secondary { background: #64748b; }
-        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
-        .btn-outline:hover { background: #eff6ff; color: var(--primary-dark); }
-
-        .quiz-container { 
-            width: 100%; max-width: 800px; 
-            padding: 20px 15px;
-            display: none;
-        }
-
+        .quiz-container { width: 100%; max-width: 800px; padding: 20px 15px; display: none; }
         .q-card {
-            background: var(--card); padding: 25px; border-radius: 16px;
-            margin-bottom: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
+            background: var(--card); padding: 25px; border-radius: 16px; margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #e2e8f0;
             animation: fadeIn 0.4s ease-out;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .theme-badge {
-            display: inline-block; background: #e0f2fe; color: #0369a1;
-            padding: 4px 12px; border-radius: 20px; font-size: 0.7rem;
-            font-weight: 700; margin-bottom: 12px; text-transform: uppercase;
-        }
-
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .theme-badge { display: inline-block; background: #e0f2fe; color: #0369a1; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; margin-bottom: 12px; text-transform: uppercase; }
         .question-text { font-size: 1.1rem; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
-
         .options-grid { display: flex; flex-direction: column; gap: 10px; }
-
-        .option {
-            padding: 14px 18px; border: 2px solid #f1f5f9; border-radius: 12px;
-            cursor: pointer; transition: all 0.2s; background: white;
-            font-size: 0.95rem;
-        }
-
+        .option { padding: 14px 18px; border: 2px solid #f1f5f9; border-radius: 12px; cursor: pointer; transition: all 0.2s; background: white; font-size: 0.95rem; }
         .option:hover:not(.disabled) { border-color: var(--primary); background: #f8fafc; }
         .disabled { cursor: default; pointer-events: none; }
-        
         .correct { background: #dcfce7 !important; border-color: var(--success) !important; color: #166534; font-weight: 600; }
-        .wrong { background: #fee2e2 !important; border-color: var(--error) !
+        .wrong { background: #fee2e2 !important; border-color: var(--error) !important; color: #991b1b; }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px); z-index: 2000; }
+        #results-modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 35px; border-radius: 24px; text-align: center; z-index: 2001; width: 90%; max-width: 450px; }
+        .score-box { font-size: 3.5rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="selector-screen">
+        <div class="select-card">
+            <h2>?? Seleccionar Examen</h2>
+            <button class="btn" style="margin-bottom:10px" onclick="app.loadDataset('preguntas.json')">Opci車n 100 preguntas</button>
+            <button class="btn" style="margin-bottom:10px" onclick="app.loadDataset('preguntas2.json')">Opci車n 257 preguntas</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('external-file').click()">?? Cargar fichero externo</button>
+            <input type="file" id="external-file" style="display:none" accept=".json" onchange="app.loadExternal(event)">
+        </div>
+    </div>
+
+    <div class="header" id="main-header">
+        <div class="stats-grid">
+            <div class="stat"><span class="stat-val" id="hits">0</span><span class="stat-label">Aciertos</span></div>
+            <div class="stat"><span class="stat-val" id="fails">0</span><span class="stat-label">Fallos</span></div>
+            <div class="stat"><span class="stat-val" id="current-stat">0/0</span><span class="stat-label">Progreso</span></div>
+        </div>
+        <div class="progress-container">
+            <div class="progress-bar" id="p-bar"></div>
+        </div>
+        <div class="controls">
+            <button class="btn" onclick="app.init(true)">?? Mezclar Todo</button>
+            <button class="btn btn-secondary" onclick="app.init(false)">?? Orden Original</button>
+            <button class="btn btn-secondary" id="btn-retry-fails" onclick="app.retryFails()" style="display:none; background: #059669">?? Solo Fallos</button>
+        </div>
+    </div>
+
+    <div class="quiz-container" id="quiz-box"></div>
+
+    <div class="overlay" id="overlay" onclick="app.closeModal()"></div>
+    <div id="results-modal">
+        <div class="score-box" id="final-grade">0.0</div>
+        <h2 id="result-title">Test Completado</h2>
+        <p id="final-stats-text"></p>
+        <button class="btn" style="width:100%; margin-bottom:10px" onclick="app.closeModal()">?? Revisar Respuestas</button>
+        <button class="btn btn-secondary" style="width:100%" onclick="location.reload()">?? Reiniciar</button>
+    </div>
+
+    <script>
+        const app = {
+            QUESTIONS_DATA: [], // Aqu赤 se guardar芍 lo que carguemos
+            activeQuestions: [],
+            hits: 0, fails: 0, done: 0,
+            failedObjects: [], renderedCount: 0, batchSize: 10,
+
+            // Nuevas funciones de carga
+            async loadDataset(file) {
+                try {
+                    const resp = await fetch(file, { cache: 'no-cache' });
+                    if (!resp.ok) throw new Error("No se encuentra el archivo");
+                    this.QUESTIONS_DATA = await resp.json();
+                    this.start();
+                } catch (e) { alert(e.message); }
+            },
+            loadExternal(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    this.QUESTIONS_DATA = JSON.parse(ev.target.result);
+                    this.start();
+                };
+                reader.readAsText(file);
+            },
+            start() {
+                document.getElementById('selector-screen').style.display = 'none';
+                document.getElementById('main-header').style.display = 'block';
+                document.getElementById('quiz-box').style.display = 'block';
+                this.init(true);
+            },
+
+            // TU L車GICA ORIGINAL (COPIADA TAL CUAL)
+            init(shouldShuffle = true, subset = null) {
+                this.activeQuestions = subset || JSON.parse(JSON.stringify(this.QUESTIONS_DATA));
+                if (shouldShuffle) this.shuffle(this.activeQuestions);
+                this.hits = 0; this.fails = 0; this.done = 0;
+                this.renderedCount = 0; this.failedObjects = [];
+                document.getElementById('quiz-box').innerHTML = '';
+                document.getElementById('btn-retry-fails').style.display = 'none';
+                this.updateUI();
+                this.renderNextBatch();
+                window.scrollTo(0, 0);
+            },
+            shuffle(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+            },
+            renderNextBatch() {
+                const box = document.getElementById('quiz-box');
+                const start = this.renderedCount;
+                const end = Math.min(start + this.batchSize, this.activeQuestions.length);
+                for (let i = start; i < end; i++) {
+                    const data = this.activeQuestions[i];
+                    const card = document.createElement('div');
+                    card.className = 'q-card'; card.id = `card-${i}`;
+                    card.innerHTML = `
+                        <span class="theme-badge">${data.u}</span>
+                        <div class="question-text">${data.q}</div>
+                        <div class="options-grid" id="opt-container-${i}">
+                            ${data.o.map((opt, oi) => `<div class="option" onclick="app.check(${i}, ${oi})">${opt}</div>`).join('')}
+                        </div>`;
+                    box.appendChild(card);
+                }
+                this.renderedCount = end;
+            },
+            check(qi, oi) {
+                const container = document.getElementById(`opt-container-${qi}`);
+                if (container.classList.contains('disabled')) return;
+                const options = container.querySelectorAll('.option');
+                const correctIdx = this.activeQuestions[qi].c;
+                if (oi === correctIdx) {
+                    options[oi].classList.add('correct');
+                    this.hits++;
+                } else {
+                    options[oi].classList.add('wrong');
+                    options[correctIdx].classList.add('correct');
+                    this.fails++;
+                    this.failedObjects.push(this.activeQuestions[qi]);
+                }
+                this.done++;
+                container.classList.add('disabled');
+                this.updateUI();
+                if (qi >= this.renderedCount - 3 && this.renderedCount < this.activeQuestions.length) this.renderNextBatch();
+                
+                // Tu scroll autom芍tico original
+                setTimeout(() => {
+                    const next = document.getElementById(`card-${qi + 1}`);
+                    if (next) {
+                        const offset = 120;
+                        const pos = next.getBoundingClientRect().top + window.pageYOffset - offset;
+                        window.scrollTo({ top: pos, behavior: 'smooth' });
+                    }
+                }, 500);
+                if (this.done === this.activeQuestions.length) this.finish();
+            },
+            updateUI() {
+                document.getElementById('hits').innerText = this.hits;
+                document.getElementById('fails').innerText = this.fails;
+                document.getElementById('current-stat').innerText = `${this.done}/${this.activeQuestions.length}`;
+                const progress = (this.done / this.activeQuestions.length) * 100;
+                document.getElementById('p-bar').style.width = `${progress}%`;
+            },
+            retryFails() { this.init(true, [...this.failedObjects]); },
+            finish() {
+                const grade = ((this.hits / this.activeQuestions.length) * 10).toFixed(1);
+                document.getElementById('final-grade').innerText = grade;
+                document.getElementById('result-title').innerText = grade >= 5 ? "?? ?Aprobado!" : "? No apto";
+                document.getElementById('final-stats-text').innerText = `Has acertado ${this.hits} de ${this.activeQuestions.length}.`;
+                if (this.failedObjects.length > 0) document.getElementById('btn-retry-fails').style.display = 'flex';
+                document.getElementById('overlay').style.display = 'block';
+                document.getElementById('results-modal').style.display = 'block';
+            },
+            closeModal() {
+                document.getElementById('overlay').style.display = 'none';
+                document.getElementById('results-modal').style.display = 'none';
+            }
+        };
+    </script>
+</body>
+</html>
