@@ -2,10 +2,10 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UAX - Administraci車n de Sistemas PRO</title>
+    <title>UAX - Administraci&oacute;n de Sistemas PRO</title>
     <style>
-        /* Mantenemos tus estilos originales intactos */
         :root {
             --primary: #2563eb; --primary-dark: #1e40af; --success: #059669;
             --error: #dc2626; --bg: #f8fafc; --card: #ffffff;
@@ -17,15 +17,18 @@
             background-color: var(--bg); color: var(--text); margin: 0; padding: 0;
             display: flex; flex-direction: column; align-items: center; min-height: 100vh;
         }
-        /* Estilos para el selector inicial */
+
         #selector-screen {
             display: flex; flex-direction: column; justify-content: center;
             align-items: center; height: 100vh; text-align: center; padding: 20px;
         }
         .select-card {
             background: var(--card); padding: 40px; border-radius: 24px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 500px; width: 100%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); max-width: 450px; width: 100%;
+            border: 1px solid #e2e8f0;
         }
+        .select-card h2 { margin-bottom: 25px; font-weight: 800; color: var(--text); }
+
         .header {
             position: sticky; top: 0; background: var(--card); width: 100%; max-width: 800px;
             padding: 15px 20px; border-bottom: 2px solid #e2e8f0;
@@ -37,14 +40,17 @@
         .stat-label { font-size: 0.7rem; color: var(--text-light); text-transform: uppercase; font-weight: bold; }
         .progress-container { width: 100%; height: 8px; background: #e2e8f0; border-radius: 10px; overflow: hidden; margin-bottom: 15px; }
         .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s ease; }
+        
         .controls { display: flex; gap: 8px; }
         .btn {
             flex: 1; background: var(--primary); color: white; border: none;
-            padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer;
-            font-size: 0.85rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
+            padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer;
+            font-size: 0.9rem; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px;
+            margin-bottom: 12px; width: 100%;
         }
-        .btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+        .btn:hover { background: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(37, 99, 235, 0.2); }
         .btn-secondary { background: #64748b; }
+
         .quiz-container { width: 100%; max-width: 800px; padding: 20px 15px; display: none; }
         .q-card {
             background: var(--card); padding: 25px; border-radius: 16px; margin-bottom: 25px;
@@ -69,10 +75,16 @@
 
     <div id="selector-screen">
         <div class="select-card">
-            <h2>?? Seleccionar Examen</h2>
-            <button class="btn" style="margin-bottom:10px" onclick="app.loadDataset('preguntas.json')">Opci車n 100 preguntas</button>
-            <button class="btn" style="margin-bottom:10px" onclick="app.loadDataset('preguntas2.json')">Opci車n 257 preguntas</button>
-            <button class="btn btn-secondary" onclick="document.getElementById('external-file').click()">?? Cargar fichero externo</button>
+            <h2>Seleccionar Examen</h2>
+            <button class="btn" onclick="app.loadDataset('preguntas.json')">
+                Opci&oacute;n 100 preguntas
+            </button>
+            <button class="btn" onclick="app.loadDataset('preguntas2.json')">
+                Opci&oacute;n 257 preguntas
+            </button>
+            <button class="btn btn-secondary" onclick="document.getElementById('external-file').click()">
+                Cargar fichero externo
+            </button>
             <input type="file" id="external-file" style="display:none" accept=".json" onchange="app.loadExternal(event)">
         </div>
     </div>
@@ -87,9 +99,9 @@
             <div class="progress-bar" id="p-bar"></div>
         </div>
         <div class="controls">
-            <button class="btn" onclick="app.init(true)">?? Mezclar Todo</button>
-            <button class="btn btn-secondary" onclick="app.init(false)">?? Orden Original</button>
-            <button class="btn btn-secondary" id="btn-retry-fails" onclick="app.retryFails()" style="display:none; background: #059669">?? Solo Fallos</button>
+            <button class="btn" onclick="app.init(true)">Mezclar Todo</button>
+            <button class="btn btn-secondary" onclick="app.init(false)">Orden Original</button>
+            <button class="btn btn-secondary" id="btn-retry-fails" onclick="app.retryFails()" style="display:none; background: #059669">Solo Fallos</button>
         </div>
     </div>
 
@@ -100,22 +112,21 @@
         <div class="score-box" id="final-grade">0.0</div>
         <h2 id="result-title">Test Completado</h2>
         <p id="final-stats-text"></p>
-        <button class="btn" style="width:100%; margin-bottom:10px" onclick="app.closeModal()">?? Revisar Respuestas</button>
-        <button class="btn btn-secondary" style="width:100%" onclick="location.reload()">?? Reiniciar</button>
+        <button class="btn" style="width:100%; margin-bottom:10px" onclick="app.closeModal()">Revisar Respuestas</button>
+        <button class="btn btn-secondary" style="width:100%" onclick="location.reload()">Reiniciar</button>
     </div>
 
     <script>
         const app = {
-            QUESTIONS_DATA: [], // Aqu赤 se guardar芍 lo que carguemos
+            QUESTIONS_DATA: [],
             activeQuestions: [],
             hits: 0, fails: 0, done: 0,
             failedObjects: [], renderedCount: 0, batchSize: 10,
 
-            // Nuevas funciones de carga
             async loadDataset(file) {
                 try {
                     const resp = await fetch(file, { cache: 'no-cache' });
-                    if (!resp.ok) throw new Error("No se encuentra el archivo");
+                    if (!resp.ok) throw new Error("No se pudo cargar el archivo local");
                     this.QUESTIONS_DATA = await resp.json();
                     this.start();
                 } catch (e) { alert(e.message); }
@@ -125,8 +136,10 @@
                 if (!file) return;
                 const reader = new FileReader();
                 reader.onload = (ev) => {
-                    this.QUESTIONS_DATA = JSON.parse(ev.target.result);
-                    this.start();
+                    try {
+                        this.QUESTIONS_DATA = JSON.parse(ev.target.result);
+                        this.start();
+                    } catch(err) { alert("Error al leer el JSON externo"); }
                 };
                 reader.readAsText(file);
             },
@@ -137,7 +150,6 @@
                 this.init(true);
             },
 
-            // TU L車GICA ORIGINAL (COPIADA TAL CUAL)
             init(shouldShuffle = true, subset = null) {
                 this.activeQuestions = subset || JSON.parse(JSON.stringify(this.QUESTIONS_DATA));
                 if (shouldShuffle) this.shuffle(this.activeQuestions);
@@ -164,7 +176,7 @@
                     const card = document.createElement('div');
                     card.className = 'q-card'; card.id = `card-${i}`;
                     card.innerHTML = `
-                        <span class="theme-badge">${data.u}</span>
+                        <span class="theme-badge">${data.u || 'Tema'}</span>
                         <div class="question-text">${data.q}</div>
                         <div class="options-grid" id="opt-container-${i}">
                             ${data.o.map((opt, oi) => `<div class="option" onclick="app.check(${i}, ${oi})">${opt}</div>`).join('')}
@@ -192,7 +204,6 @@
                 this.updateUI();
                 if (qi >= this.renderedCount - 3 && this.renderedCount < this.activeQuestions.length) this.renderNextBatch();
                 
-                // Tu scroll autom芍tico original
                 setTimeout(() => {
                     const next = document.getElementById(`card-${qi + 1}`);
                     if (next) {
@@ -214,7 +225,7 @@
             finish() {
                 const grade = ((this.hits / this.activeQuestions.length) * 10).toFixed(1);
                 document.getElementById('final-grade').innerText = grade;
-                document.getElementById('result-title').innerText = grade >= 5 ? "?? ?Aprobado!" : "? No apto";
+                document.getElementById('result-title').innerText = grade >= 5 ? "Aprobado" : "No apto";
                 document.getElementById('final-stats-text').innerText = `Has acertado ${this.hits} de ${this.activeQuestions.length}.`;
                 if (this.failedObjects.length > 0) document.getElementById('btn-retry-fails').style.display = 'flex';
                 document.getElementById('overlay').style.display = 'block';

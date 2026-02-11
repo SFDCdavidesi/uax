@@ -659,12 +659,7 @@
     ],
     "c": 3
   },
-Aquí tienes el JSON completo con las 30 preguntas extraídas de los tres exámenes (Tema 3, Tema 4 y Tema 2), ajustadas al formato que me has pedido (u, q, o, c).
 
-He corregido algunos errores de escaneo del PDF (como espacios extra en "HT TP" o saltos de línea) para que queden limpios en tu aplicación.
-
-JSON
-[
   {
     "u": "Tema 3",
     "q": "1. ¿Cuántas cuentas de administrador de dominio pueden existir?",
